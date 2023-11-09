@@ -12,7 +12,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
 
   return (
-    <Link href={to}>
+    <Link className="" href={to}>
       <MenuItem
         active={selected === title}
         onClick={() => setSelected(title)}

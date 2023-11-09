@@ -13,12 +13,12 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
+    "@tinymce/tinymce-react": "^4.3.0",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
-    "react-pro-sidebar": "0.6.0",
-    "slate-react": "^0.100.1"
+    "react-pro-sidebar": "0.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

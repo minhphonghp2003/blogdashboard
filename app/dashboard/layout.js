@@ -16,7 +16,7 @@ function DashboardLayout({ children }) {
             </div>
             <main className="my-3 ml-[8rem] mr-6 w-[100vw]">
                 <Topbar />
-                <section>{children}</section>
+                {children}
             </main>
         </div>
     );

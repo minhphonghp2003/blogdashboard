@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import ReactHtmlParser from 'react-html-parser';
 
 function TextEditor({onPost}) {
     const editorRef = useRef(null);
@@ -44,7 +43,6 @@ function Post() {
     return (
         <div className="mt-10 flex flex-col gap-2 items-center">
             <TextEditor onPost={handlePost} />
-             {/* <div>{ ReactHtmlParser(content) }</div> */}
         </div>
     );
 }

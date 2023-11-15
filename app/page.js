@@ -1,14 +1,15 @@
-import Image from "next/image";
-import Dashboard from "./dashboard/page";
-import { cookies } from "next/headers";
-import Login from "./authentication/page";
-import { redirect } from "next/navigation";
+"use client"
+import { useRouter } from 'next/navigation'
+import { CookiesProvider, useCookies } from "react-cookie";
 export default function Home() {
-    const cookieStore = cookies();
-    const token = cookieStore.get("token");
+
+    const [cookies, setCookie, removeCookie] = useCookies(['Authentication']);
+    const token = cookies.Authentication;
+    const router = useRouter()
+
     if (token) {
-        redirect("/dashboard");
+        router.push("/dashboard");
     } else {
-        redirect("/authentication");
+        router.push("/authentication")
     }
 }

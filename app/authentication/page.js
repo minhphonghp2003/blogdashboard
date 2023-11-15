@@ -1,6 +1,35 @@
-import React from "react";
+"use client"
+import React, { useState } from 'react'
 import LoginForm from "../components/authentication/login";
+import { CookiesProvider, useCookies } from "react-cookie";
+import { useRouter } from 'next/navigation'
+
+
 function Login() {
+    const [cookies, setCookie, removeCookie] = useCookies(['Authentication']);
+    let [isError, setError] = useState(false);
+    let router = useRouter()
+    let handleLogin = async ({ username, password }) => {
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+        };
+        try {
+            let result = await fetch(
+                process.env.NEXT_PUBLIC_BACKEND + "auth/login",
+                requestOptions
+            );
+            result = await result.json();
+            if (!result.token) {
+                setError(true);
+                return;
+            }
+            setCookie("Authentication", result.token);
+            setError(false);
+            router.back()
+        } catch (error) {}
+    };
     return (
         <main className="grid grid-cols-3">
             <section className="flex justify-center col-span-2 p-20">
@@ -11,17 +40,19 @@ function Login() {
                     <img src="logo.svg" />
                 </div>
                 <div className="">
-                    <h4 class="text-[white] mb-2 ">Welcome to Sneat! 👋</h4>
-                    <p class="mb-4 text-[#a3a4cc]">
+                    <h4 className="text-[white] mb-2 ">
+                        Welcome to PhongBlog! 👋
+                    </h4>
+                    <p className="mb-4 text-[#a3a4cc]">
                         Please sign-in to your account and start analyzing
                     </p>
                 </div>
                 <div className=" w-full">
-                    <LoginForm />
+                    <LoginForm isError={isError} onLogin={handleLogin} />
                 </div>
-                <div class="divider">or</div>
+                <div className="divider">or</div>
                 <div className="grow-[7] self-center">
-                    <p >Want to be an author? Contact admin</p>
+                    <p>Want to be an author? Contact admin</p>
                 </div>
             </section>
         </main>

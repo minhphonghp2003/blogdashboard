@@ -4,15 +4,18 @@ import Drawer from "../components/dashboard/drawer/drawer";
 import Topbar from "../components/dashboard/topbar";
 import { useRouter } from "next/navigation";
 import { CookiesProvider, useCookies } from "react-cookie";
+import { useEffect } from "react";
 function DashboardLayout({ children }) {
     const [cookies, setCookie, removeCookie] = useCookies(["Authentication"]);
     const token = cookies.Authentication;
     const router = useRouter();
-    if (!token) {
-        router.push("/authentication");
-        return;
-    }
-    router.replace("/dashboard");
+    useEffect(()=>{
+        if (!token) {
+            router.push("/authentication");
+            return;
+        }
+        router.replace("/dashboard");
+    })
     return (
         <div className="flex">
             <div className="fixed z-10">

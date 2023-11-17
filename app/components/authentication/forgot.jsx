@@ -1,28 +1,11 @@
 'use client'
 import { useState } from 'react'
 import Card from '../shared/card'
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY)
-let sendEmail = async ({ to, from, subject, text }) => {
-    const msg = {
-        to, // Change to your recipient
-        from, // Change to your verified sender
-        subject,
-        text,
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-    }
-    await sgMail.send(msg)
-    console.log("SENT");
-}
-
 
 function ForgotCard() {
     let [email, setEmail] = useState("")
     let [token, setToken] = useState("")
-    const input = ["Email"]
-    const handleInputChange = (e) => {
-        setEmail(e.target.value)
-    }
+    const input = [{ title: "Email", setState: setEmail }]
     const handleSubmit = async () => {
         let fetchOptions = {
             method: "POST",
@@ -34,7 +17,17 @@ function ForgotCard() {
         }
         let response = await fetch(process.env.NEXT_PUBLIC_BACKEND + "auth/recvToken", fetchOptions)
         let respToken = (await response.json()).token
-        sendEmail({to:"minhphonghp2003@gmail.com",from:"minhphonghp2003@gmail.com",subject:"test",text:"test"})
+        fetchOptions = {
+            method: "POST",
+
+            body: JSON.stringify({
+                "to": email,
+                "token": respToken,
+                "server": "http://localhost:3000/authentication/forgot"
+            })
+        }
+
+        fetch("https://eow8ijpnrwxsdra.m.pipedream.net", fetchOptions)
         setToken(respToken)
     }
     const header = <div>
@@ -46,7 +39,7 @@ function ForgotCard() {
         </div>
     </div>
     return (
-        <Card onInpChange={handleInputChange} header={header} logo="/logo.svg" submitText="Send reset link" onBtnSubmit={handleSubmit} input={input} />
+        <Card header={header} logo="/logo.svg" submitText="Send reset link" onBtnSubmit={handleSubmit} input={input} />
     )
 }
 

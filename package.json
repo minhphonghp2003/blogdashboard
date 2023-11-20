@@ -13,6 +13,7 @@
         "@emotion/styled": "^11.11.0",
         "@mui/icons-material": "^5.14.16",
         "@mui/material": "^5.14.17",
+        "@supabase/supabase-js": "^2.38.4",
         "@tinymce/tinymce-react": "^4.3.0",
         "next": "14.0.1",
         "react": "^18",

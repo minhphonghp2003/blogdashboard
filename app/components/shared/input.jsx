@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Input({ title, placeholder, isPassword, onChange }) {
+function Input({ title, placeholder, isPassword, onChange, className }) {
   return (
-    <div className="form-control w-full ">
+    <div className={`${className} form-control w-full `}>
       <label className={`${title ? "label" : "hidden"}`}>
         <span className="text-white label-text">{title}</span>
       </label>

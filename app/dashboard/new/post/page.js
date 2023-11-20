@@ -1,13 +1,19 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { createClient } from "@supabase/supabase-js";
 
-function TextEditor({onPost}) {
+const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_KEY
+);
+
+function TextEditor({ onPost }) {
     const editorRef = useRef(null);
     let handleSubmit = () => {
         if (editorRef.current) {
             let content = editorRef.current.getContent();
-            onPost(content)
+            onPost(content);
         }
     };
     return (
@@ -19,7 +25,7 @@ function TextEditor({onPost}) {
                 Post
             </button>{" "}
             <Editor
-                onInit={(evt, editor) => editorRef.current = editor}
+                onInit={(evt, editor) => (editorRef.current = editor)}
                 id="editor"
                 apiKey="sncffu26ys9pgaa4fp1ozl0g80ttdu6nv00yodyd8zgccgfv"
                 init={{
@@ -35,10 +41,16 @@ function TextEditor({onPost}) {
 }
 
 function Post() {
-    let [content,setContent]= useState("")
-    let handlePost = (data) => {
-        console.log(data);
-        setContent(data)
+    let [content, setContent] = useState("");
+    let handlePost = async (value) => {
+        setContent(value);
+        const { data, error } = await supabase.storage
+            .from("post")
+            .upload("post/file1", value, {
+                cacheControl: "3600",
+                upsert:true
+            });
+        console.log(data.path);
     };
     return (
         <div className="mt-10 flex flex-col gap-2 items-center">

@@ -9,7 +9,7 @@ function DetailBadget({ icon, name, amount }) {
     <div className='flex justify-between'>
       <div className='mr-3 '>{icon}</div>
       <div className='flex flex-col'>
-        <p className='text-[#cbcbe2]'>{amount}</p>
+        <p className='text-white'>{amount}</p>
         <p>{name}</p>
       </div>
     </div>

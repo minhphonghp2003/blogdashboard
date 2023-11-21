@@ -43,7 +43,7 @@ function Social() {
     return (
         <div className='flex flex-col gap-4'>
             <Box>
-                <p className='mb-4'>Social Accounts</p>
+                <p className='mb-4 text-white text-lg'>Social Accounts</p>
                 <p className=''>Display content from social accounts on your site</p>
                 {
                     social.map(s => {

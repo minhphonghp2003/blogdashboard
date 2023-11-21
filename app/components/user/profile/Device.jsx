@@ -22,12 +22,12 @@ function Device() {
     return (
         <Box>
             <div className='flex flex-col gap-5 '>
-                <h4>Recent Devices</h4>
+                <h4 className='text-white text-lg'>Recent Devices</h4>
                 <div className="overflow-x-auto h-[20rem]">
                     <table className="table ">
                         {/* head */}
                         <thead>
-                            <tr>
+                            <tr className='text-white'>
                                 <th>BROWSER</th>
                                 <th>DEVICE</th>
                                 <th>LOCATION</th>

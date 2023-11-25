@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 
 function Login() {
-    const [cookies, setCookie, removeCookie] = useCookies(['Authentication']);
+    const [cookies, setCookie, removeCookie] = useCookies(['Authorization']);
     let [isError, setError] = useState(false);
     let router = useRouter()
     let handleLogin = async ({ username, password }) => {
@@ -17,7 +17,7 @@ function Login() {
         };
         try {
             let result = await fetch(
-                process.env.NEXT_PUBLIC_BACKEND + "auth/login",
+                process.env.NEXT_PUBLIC_BACKEND + "user/login",
                 requestOptions
             );
             result = await result.json();
@@ -25,9 +25,9 @@ function Login() {
                 setError(true);
                 return;
             }
-            setCookie("Authentication", result.token);
+            setCookie("Authorization", result.token);
             setError(false);
-            router.back()
+            router.push("/")
         } catch (error) {}
     };
     return (

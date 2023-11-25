@@ -2,17 +2,18 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import { CookiesProvider, useCookies } from "react-cookie";
+
 export default function Home() {
 
-    const [cookies, setCookie, removeCookie] = useCookies(['Authentication']);
-    const token = cookies.Authentication;
+    const [cookies, setCookie, removeCookie] = useCookies(['Authorization']);
+    const token = cookies.Authorization;
     const router = useRouter()
     useEffect(()=>{
         if (token) {
-            router.push("/dashboard");
+            router.replace("/dashboard");
         } else {
-            router.push("/authentication")
+            router.replace("/authentication")
         }
 
-    })
+    },[])
 }

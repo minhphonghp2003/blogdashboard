@@ -1,3 +1,4 @@
+
 import Box from "@/app/components/shared/box";
 import Action from "@/app/components/user/profile/Action";
 import Detail from "@/app/components/user/profile/Detail";
@@ -9,11 +10,21 @@ import ProfileCard from "@/app/components/user/profile/ProfileCard";
 import Social from "@/app/components/user/profile/Social";
 import Statistic from "@/app/components/user/profile/statistic";
 import React from "react";
-const awaitTimeout = (delay) =>
-    new Promise((resolve) => setTimeout(resolve, delay));
+import {cookies} from 'next/headers'
+
 
 async function Profile() {
-    // await awaitTimeout(3000);
+    let cookieStore = cookies()
+    let token = cookieStore.get("Authorization")
+    let fetchOptions = {
+        headers: {
+            Authorization: token.value,
+        },
+    };
+    let userDetails = await (await fetch(
+        process.env.NEXT_PUBLIC_BACKEND + "user/userDetail",
+        fetchOptions
+    )).json()
     return (
         <div className="grid gap-[1rem] grid-cols-3">
             <dialog id="my_modal_2" className="modal">
@@ -23,7 +34,7 @@ async function Profile() {
                             Edit user information
                         </h3>
                         <div className="py-4">
-                            <Edit />
+                            <Edit userDetail={userDetails}/>
                         </div>
                     </Box>
                 </div>
@@ -33,19 +44,19 @@ async function Profile() {
             </dialog>
             <section className=" flex gap-[1rem] flex-col">
                 <Box>
-                    <ProfileCard className="m-5" />
-                    <Overview classname=" m-5" />
+                    <ProfileCard className="m-5" avatar={userDetails.avatar} name={userDetails.fullName} roles={userDetails.roles}/>
+                    <Overview classname=" m-5"  />
                     <div className="flex flex-col w-full">
                         <div className="divider divider-start">Details</div>
                     </div>
-                    <Detail />
+                    <Detail bio={userDetails.bio} contact={userDetails.phone} email={userDetails.email} status={userDetails.status.name} username={userDetails.username}/>
                     <Action />
                 </Box>
                 <Statistic />
             </section>
             <section className="flex gap-[1rem] flex-col col-span-2">
-                <PasswordReset />
-                <Social />
+                <PasswordReset email = {userDetails.email}/>
+                <Social userId={userDetails.id} socials={userDetails.socials}/>
                 <Device />
             </section>
         </div>

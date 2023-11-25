@@ -35,7 +35,7 @@ function ResetCard() {
             })
 
         }
-        fetch(process.env.NEXT_PUBLIC_BACKEND + "auth/password", fetchOptions)
+        fetch(process.env.NEXT_PUBLIC_BACKEND + "user/password", fetchOptions)
         setSent(true)
     }
 

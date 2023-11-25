@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { createClient } from "@supabase/supabase-js";
+import PostMetadataForm from "@/app/components/new/form";
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -18,12 +19,6 @@ function TextEditor({ onPost }) {
     };
     return (
         <>
-            <button
-                onClick={handleSubmit}
-                className="btn btn-xs h-[3rem] w-[10rem] bg-[#696cff] text-white"
-            >
-                Post
-            </button>{" "}
             <Editor
                 onInit={(evt, editor) => (editorRef.current = editor)}
                 id="editor"
@@ -48,12 +43,13 @@ function Post() {
             .from("post")
             .upload("post/file1", value, {
                 cacheControl: "3600",
-                upsert:true
+                upsert: true,
             });
         console.log(data.path);
     };
     return (
-        <div className="mt-10 flex flex-col gap-2 items-center">
+        <div className="mt-10 flex flex-col gap-2 ">
+            <PostMetadataForm handleSubmit={handlePost} />
             <TextEditor onPost={handlePost} />
         </div>
     );

@@ -8,7 +8,8 @@ export const metadata = {
   title: 'Phong Dashboard',
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  
   return (
     <html data-theme="dark" className='antialiased font-sans' lang="en">
       <body>

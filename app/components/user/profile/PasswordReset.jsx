@@ -1,11 +1,46 @@
 "use client"
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import Box from '../../shared/box'
 import Input from '../../shared/input'
 
-function PasswordReset() {
+function PasswordReset({ email }) {
     let [password, setPassword] = useState("")
     let [confirm, setConfirm] = useState("")
+    let [isLoading, setLoading] = useState(false)
+    let handlePasswordChange = async () => {
+        if (password.length == 0 || confirm.length == 0 || password !== confirm) {
+            alert("Please type valid password/confirm password")
+            return
+        }
+        setLoading(true)
+        let fetchOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: email,
+
+        }
+        let token = await (await fetch(process.env.NEXT_PUBLIC_BACKEND + "user/recvToken", fetchOptions)).json()
+        let data = {
+            token: token.token,
+            password: password
+        }
+        fetchOptions = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }
+        let res = (await fetch(process.env.NEXT_PUBLIC_BACKEND + "user/password", fetchOptions))
+        setLoading(false)
+        if (res.status != 200) {
+            alert("Cannot reset password")
+        } else {
+            alert("Successfully")
+        }
+    }
     return (
         <Box>
             <div className='flex flex-col justify-start gap-8'>
@@ -34,7 +69,10 @@ function PasswordReset() {
                     <Input isPassword={true} onChange={e => { setPassword(e.target.value) }} placeholder="********" title="Password" key="password" />
                     <Input isPassword={true} onChange={e => { setConfirm(e.target.value) }} placeholder="********" title="Confirm password" key="confirm" />
                 </div>
-                <button type="button" className="hover:bg-[#5f61e6] bg-blue-700  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 self-start text-[white]">Change Password</button>
+
+                {
+                    isLoading ? <span className="loading loading-dots loading-lg"></span> : <button type="button" onClick={handlePasswordChange} className="hover:bg-[#5f61e6] bg-blue-700  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 self-start text-[white]">Change Password</button>
+                }
 
             </div>
         </Box>

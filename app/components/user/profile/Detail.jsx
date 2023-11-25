@@ -1,15 +1,16 @@
 import React from 'react'
 
-function Detail() {
+function Detail({bio,username,email,status,contact}) {
   return (
     <div className='flex flex-col gap-5'>
-      <p>Username: my username</p>
-      <p>Email: my email</p>
-      <p>Status:
-        <span class=" text-sm font-medium ml-2 px-2.5 py-0.5 rounded bg-green-900 text-green-300">Active</span>
+      <p><span className='text-white'>Bio:</span> {bio}</p>
+      <p><span className='text-white'>Username:</span> {username}</p>
+      <p><span className='text-white'>Email:</span> {email} </p>
+      <p><span className='text-white'>Status:</span> 
+        <span class=" text-sm font-medium ml-2 px-2.5 py-0.5 rounded bg-green-900 text-green-300">{status}</span>
       </p>
-      <p>Roles: my roles</p>
-      <p>Contact: my contact</p>
+      
+      <p><span className='text-white'>Contact:</span> {contact}</p>
     </div>
   )
 }

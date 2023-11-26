@@ -13,7 +13,7 @@ function Topbar({user}) {
     router.replace("/")
   }
   return (
-    <div className="mb-10 navbar sticky top-0 flex shadow-[0_0_0.375rem_0.25rem_rgba(0,0,0,.15)] justify-between bg-[#2b2c40] rounded-lg">
+    <div className="z-5 mb-10 navbar sticky top-0 flex shadow-[0_0_0.375rem_0.25rem_rgba(0,0,0,.15)] justify-between bg-[#2b2c40] rounded-lg">
       <div className="grow-[1] flex justify-between">
         <div className="form-control w-[25%]">
           <Input

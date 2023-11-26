@@ -9,6 +9,10 @@ import { FaInstagramSquare } from "react-icons/fa";
 import Box from '../../shared/box';
 import Input from '../../shared/input';
 import Button from '../../shared/button';
+import { FaGithub } from "react-icons/fa";
+import { CgWebsite } from "react-icons/cg";
+
+
 
 function LinkBox({ userId, name }) {
     let [link, setLink] = useState()
@@ -99,7 +103,9 @@ function Social({ socials, userId }) {
 
 
     let social = [
-        { id: "", name: "Facebook", link: "", icon: <FaFacebookF color='blue' /> },
+        { id: "", name: "Website", link: "", icon: <CgWebsite  color='blue'/> },
+        { id: "", name: "Github", link: "", icon: <FaGithub color='black' /> },
+        { id: "", name: "Facebook", link: "", icon: <FaFacebookF color='#316FF6' /> },
         { id: "", name: "Instagram", link: "", icon: <FaInstagramSquare color='#bc2a8d' /> },
         { id: "", name: "Twitter", link: "", icon: <FaTwitter color='white' /> },
         { id: "", name: "Zalo", link: "", icon: <SiZalo /> },

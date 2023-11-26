@@ -23,7 +23,7 @@ function ForgotCard() {
             body: JSON.stringify({
                 "to": email,
                 "token": respToken,
-                "server": "http://localhost:3000/authentication/forgot"
+                "server": process.env.NEXT_PUBLIC_FRONTEND + "authentication/forgot"
             })
         }
 

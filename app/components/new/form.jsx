@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { forwardRef, useCallback, useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -15,21 +15,42 @@ import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 import FormControl from '@mui/material/FormControl'
 import OutlinedInput from '@mui/material/OutlinedInput'
-import Select from '@mui/material/Select'
+import makeAnimated from 'react-select/animated';
 
-const CustomInput = forwardRef((props, ref) => {
-    return <TextField fullWidth {...props} inputRef={ref} label='Birth Date' autoComplete='off' />
-})
+// import Select from '@mui/material/Select'
+import Box from '../shared/box'
+import Select from 'react-select';
 
-const PostMetadataForm = ({ handleSubmit }) => {
-    let [language, setLanguage] = useState([])
-    // Handle Select
-    const handleSelectChange = event => {
-        setLanguage(event.target.value)
+const animatedComponents = makeAnimated();
+
+const TagField = ({ options, selectedOption, setSelectedOption, isMulti, closeOnSelect }) => {
+    const customstyles = {
+        option: (provided, state) => ({
+            ...provided,
+            borderbottom: '1px dotted pink',
+            padding: 10,
+        })
     }
+    return <div className=''>
+        <Select
+            styles={customstyles}
+            closeMenuOnSelect={closeOnSelect}
+            components={animatedComponents}
+            defaultValue={selectedOption}
+            isMulti={isMulti}
+            onChange={setSelectedOption}
+            options={options}
+        />
+    </div>
+}
 
+
+const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) => {
+    let checkCanPost = ()=>{
+        return states.topic.selectedTopic && states.title.title 
+    }
     return (
-        <Card>
+        <Box className="bg-slate-100 z-2 text-black">
             <CardHeader title='Post Information' titleTypographyProps={{ variant: 'h6' }} />
             <Divider sx={{ margin: 0 }} />
             <form onSubmit={e => e.preventDefault()}>
@@ -41,63 +62,27 @@ const PostMetadataForm = ({ handleSubmit }) => {
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label='Title' placeholder='Some awesome title...' />
+                            <TextField onChange={e => { states.title.setTitle(e.target.value) }} fullWidth label='Title' placeholder='Some awesome title...' />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField fullWidth label='Forewords' placeholder='Any forewords?' />
+                            <TextField onChange={e => { states.foreword.setForeword(e.target.value) }} fullWidth label='Forewords' placeholder='Any forewords?' />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth>
-                                <InputLabel id='form-layouts-separator-select-label'>Topic</InputLabel>
-                                <Select
-                                    label='Topic'
-                                    defaultValue=''
-                                    id='form-layouts-separator-select'
-                                    labelId='form-layouts-separator-select-label'
-                                >
-                                    <MenuItem value='UK'>UK</MenuItem>
-                                    <MenuItem value='USA'>USA</MenuItem>
-                                    <MenuItem value='Australia'>Australia</MenuItem>
-                                    <MenuItem value='Germany'>Germany</MenuItem>
-                                </Select>
-                            </FormControl>
+                        <Grid item xs={6}>
+                            <label className="block mb-2 text-sm font-medium text-gray-900" for="file_input">Upload post image</label>
+                            <input onChange={e => { states.image.setImage(e.target.files[0]) }} className="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer  :text-gray-400 focus:outline-none :bg-gray-700 :border-gray-600 :placeholder-gray-400" id="file_input" type="file"></input>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth>
-                                <InputLabel id='form-layouts-separator-select-label'>Reading List</InputLabel>
-                                <Select
-                                    label='Reading list'
-                                    defaultValue=''
-                                    id='form-layouts-separator-select'
-                                    labelId='form-layouts-separator-select-label'
-                                >
-                                    <MenuItem value='UK'>UK</MenuItem>
-                                    <MenuItem value='USA'>USA</MenuItem>
-                                    <MenuItem value='Australia'>Australia</MenuItem>
-                                    <MenuItem value='Germany'>Germany</MenuItem>
-                                </Select>
-                            </FormControl>
+                        <Grid item xs={6} >
+                            <label className="block mb-2 text-sm font-medium text-gray-900" >Tags</label>
+                            <TagField options={tags} selectedOption={states.tag.selectedTag} setSelectedOption={states.tag.setSelectedTag} isMulti={true} closeOnSelect={false} />
                         </Grid>
-                        <Grid item xs={12} >
-                            <FormControl fullWidth>
-                                <InputLabel id='form-layouts-separator-multiple-select-label'>Tags</InputLabel>
-                                <Select
-                                    multiple
-                                    value={language}
-                                    onChange={handleSelectChange}
-                                    id='form-layouts-separator-multiple-select'
-                                    labelId='form-layouts-separator-multiple-select-label'
-                                    input={<OutlinedInput label='Language' id='select-multiple-language' />}
-                                >
-                                    <MenuItem value='English'>English</MenuItem>
-                                    <MenuItem value='French'>French</MenuItem>
-                                    <MenuItem value='Spanish'>Spanish</MenuItem>
-                                    <MenuItem value='Portuguese'>Portuguese</MenuItem>
-                                    <MenuItem value='Italian'>Italian</MenuItem>
-                                    <MenuItem value='German'>German</MenuItem>
-                                    <MenuItem value='Arabic'>Arabic</MenuItem>
-                                </Select>
-                            </FormControl>
+                        <Grid item xs={6}>
+                            <label className="block mb-2 text-sm font-medium text-gray-900" >Reading list</label>
+                            <TagField options={rlists} selectedOption={states.rList.selectedRList} setSelectedOption={states.rList.setSelectedRList} isMulti={false} closeOnSelect={true} />
+                        </Grid>
+                        <Grid item xs={6} >
+                            <label className="block mb-2 text-sm font-medium text-gray-900" >Topic</label>
+                            <TagField options={topics} selectedOption={states.topic.selectedTopic} setSelectedOption={states.topic.setSelectedTopic} isMulti={false} closeOnSelect={true} />
+
                         </Grid>
 
                     </Grid>
@@ -105,20 +90,18 @@ const PostMetadataForm = ({ handleSubmit }) => {
                 <Divider sx={{ margin: 0 }} />
                 <CardActions>
                     <button
-                        onClick={handleSubmit}
-                        className="btn btn-xs h-[3rem] w-[10rem] bg-[#696cff] text-white"
+                        onClick={onSubmit}
+                        className={`${checkCanPost()?"":"btn-disabled"} btn btn-xs h-[3rem] w-[10rem] bg-[#696cff] text-white`}
                     >
                         Post
                     </button>
-                    <Button size='large' variant='outlined'>
+                    <Button onClick={onSave} size='large' variant='outlined'>
                         Save
                     </Button>
-                    <Button size='large' color='secondary' variant='outlined'>
-                        Cancel
-                    </Button>
+
                 </CardActions>
             </form>
-        </Card>
+        </Box>
     )
 }
 

@@ -18,7 +18,7 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed }) => {
         onClick={() => setSelected(title)}
         icon={icon}
       >
-        <Typography className={`${isCollapsed ? "hidden" : "inline"} ml-5 `}>{title}</Typography>
+        <Typography className={`${isCollapsed ? "hidden" : "inline "} ml-5 `}>{title}</Typography>
       </MenuItem>
     </Link>
   );
@@ -40,6 +40,7 @@ function Drawer() {
         "& .pro-sidebar-inner": {
           height: "100vh",
           background: `#2b2c40 !important`,
+          zIndex:"99",
           padding: "1rem",
           boxShadow: "0 0.125rem 0.375rem rgba(0,0,0,.25)",
           width:"6rem",

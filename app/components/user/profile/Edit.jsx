@@ -15,8 +15,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 function Form({ inputs, values }) {
     return (
         <div className='grid grid-cols-2 grow-[1] gap-4'>
-            <Input onChange={e => { inputs.Firstname(e.target.value) }} title="FirstName" placeholder={values.firstname} key="firstname" />
-            <Input onChange={e => { inputs.Lastname(e.target.value) }} title="LastName" placeholder={values.lastname} key="lastname" />
+            <Input className="col-span-2" onChange={e => { inputs.FullName(e.target.value) }} title="Fullname" placeholder={values.fullName} key="fullname" />
             <Input className="col-span-2" onChange={e => { inputs.Bio(e.target.value) }} title="Bio" placeholder={values.bio} key="bio" />
 
             <form className="max-w-lg mx-auto">
@@ -35,7 +34,6 @@ function Action({ formValues }) {
     const [cookies] = useCookies(['Authorization']);
     const token = cookies.Authorization;
     let handleSubmit = async (e) => {
-        let fullname = formValues.firstname + " " + formValues.lastname
         let avatarFile = formValues.avatar
         let avatar = formValues.oldAvatar
         if (avatarFile.name) {
@@ -55,7 +53,7 @@ function Action({ formValues }) {
             avatar = data.data.publicUrl
         }
         let body = {
-            fullName: fullname,
+            fullName: formValues.fullName,
             phone: formValues.phone,
             bio: formValues.bio,
             username: formValues.username,
@@ -88,15 +86,13 @@ function Action({ formValues }) {
 }
 
 function Edit({ userDetail }) {
-    let [firstname, setFName] = useState(userDetail.fullName.split(" ")[0])
-    let [lastname, setLName] = useState(userDetail.fullName.split(" ")[1])
+    let [fullName, setFName] = useState(userDetail.fullName)
     let [email, setEmail] = useState(userDetail.email)
     let [phone, setPhone] = useState(userDetail.phone)
     let [bio, setBio] = useState(userDetail.bio)
     let [avatar, setAvatar] = useState(userDetail.avatar)
     let inputs = {
-        Firstname: setFName,
-        Lastname: setLName,
+        FullName: setFName,
         Email: setEmail,
         Phone: setPhone,
         Bio: setBio,
@@ -104,7 +100,7 @@ function Edit({ userDetail }) {
     }
     let oldAvatar = userDetail.avatar
     let formValues = {
-        firstname, lastname, email, phone, bio, avatar, oldAvatar
+        fullName, email, phone, bio, avatar, oldAvatar
     }
 
     return (

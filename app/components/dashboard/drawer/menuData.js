@@ -19,5 +19,5 @@ export let User = [
 export let New=[
 
     { title: "Post", to: "/dashboard/new/post", icon: <CalendarTodayOutlinedIcon /> },
-    { title: "Topic", to: "/dashboard/new/topic", icon: <ReceiptOutlinedIcon /> },
+    { title: "Post information", to: "/dashboard/new/topic", icon: <ReceiptOutlinedIcon /> },
 ]

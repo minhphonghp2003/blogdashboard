@@ -19,16 +19,17 @@ function DashboardLayout({ children }) {
         };
         try {
            
-            let data = await (
+            let data = (
                 await fetch(
                     process.env.NEXT_PUBLIC_BACKEND + "user/userDetail",
                     fetchOptions
                 )
-            ).json();
+            );
             if (data.status >= 400) {
                 removeCookie("Authorization");
                 router.push("/");
             }
+            data = await data.json()
 
             setUser(data);
         } catch (error) {

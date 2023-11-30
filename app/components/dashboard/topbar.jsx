@@ -10,7 +10,7 @@ function Topbar({user}) {
 
   const handleLogout = () => {
     document.cookie = "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.replace("/")
+    router.replace("/authentication")
   }
   return (
     <div className="z-5 mb-10 navbar sticky top-0 flex shadow-[0_0_0.375rem_0.25rem_rgba(0,0,0,.15)] justify-between bg-[#2b2c40] rounded-lg">

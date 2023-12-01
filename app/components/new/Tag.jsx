@@ -14,9 +14,13 @@ function Tag({ className }) {
     let handleNameChange = (e) => { setName(e.target.value)}
     let handleSubmit =async ()=>{
         let res =await makeACallTo("tag/","POST",{"Authorization":token},name)
-        if(res.status==200){
-            alert("OK")
+        let tag = await res.json()
+        if (tag.status == "ACTIVE") {
+            alert("Topic created successfully")
+        } else {
+            alert("Request to create topic sent")
         }
+       
     }
     return (
         <div className={`${className}`}>

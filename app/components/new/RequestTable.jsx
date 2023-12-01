@@ -46,10 +46,10 @@ function RequestTable({ className }) {
     }, [])
 
 
-    // TODO: Tag
     return (
         <div className={className}>
             <Box>
+                <p className='text-lg  text-white'>Pending</p>
                 <div className="overflow-x-auto">
                     <table className="table">
                         {/* head */}

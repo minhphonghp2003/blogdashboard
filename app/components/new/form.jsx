@@ -1,5 +1,4 @@
-// ** React Imports
-import { forwardRef, useCallback, useState } from 'react'
+
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -24,6 +23,7 @@ import Select from 'react-select';
 const animatedComponents = makeAnimated();
 
 const TagField = ({ options, selectedOption, setSelectedOption, isMulti, closeOnSelect }) => {
+    
     const customstyles = {
         option: (provided, state) => ({
             ...provided,
@@ -46,8 +46,9 @@ const TagField = ({ options, selectedOption, setSelectedOption, isMulti, closeOn
 
 
 const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) => {
-    let checkCanPost = ()=>{
-        return states.topic.selectedTopic && states.title.title 
+
+    let checkCanPost = () => {
+        return states.topic.selectedTopic && states.title.title
     }
     return (
         <Box className="bg-slate-100 z-2 text-black">
@@ -91,7 +92,7 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
                 <CardActions>
                     <button
                         onClick={onSubmit}
-                        className={`${checkCanPost()?"":"btn-disabled"} btn btn-xs h-[3rem] w-[10rem] bg-[#696cff] text-white`}
+                        className={`${checkCanPost() ? "" : "btn-disabled"} btn btn-xs h-[3rem] w-[10rem] bg-[#696cff] text-white`}
                     >
                         Post
                     </button>

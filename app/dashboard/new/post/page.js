@@ -1,9 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { createClient } from "@supabase/supabase-js";
 import PostMetadataForm from "@/app/components/new/form";
 import { saveAs } from "file-saver";
+import { makeACallTo } from "@/utils/network";
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -28,6 +29,13 @@ function TextEditor({ editorRef }) {
         </div>
     );
 }
+
+let addLabel = (list) => {
+    list.map((l) => {
+        l.label = l.name;
+    });
+};
+
 function Post() {
     const editorRef = useRef(null);
     const [selectedTag, setSelectedTag] = useState(null);
@@ -36,7 +44,6 @@ function Post() {
     const [image, setImage] = useState();
     const [title, setTitle] = useState();
     const [foreword, setForeword] = useState();
-
     const states = {
         tag: {
             selectedTag,
@@ -64,33 +71,44 @@ function Post() {
         },
     };
 
-    const tags = [
-        { id: 1, value: "chocolate", label: "Chocolate" },
-        { id: 2, value: "strawberry", label: "Strawberry" },
-        { id: 3, value: "vanilla", label: "Vanilla" },
-    ];
-    const rlists = [
-        { id: 1, value: "rl1", label: "RL1" },
-        { id: 2, value: "rl2", label: "Rl2" },
-        { id: 3, value: "rl3", label: "R3" },
-    ];
-    const topics = [
-        { id: 1, value: "t1", label: "T1" },
-        { id: 2, value: "t2", label: "T2" },
-        { id: 3, value: "t3", label: "T3" },
-    ];
+    // let [tags, setTags] = useState();
+    // let [rlists, setRLists] = useState();
+    // let [topics, setTopics] = useState();
+    // let fetchData = async () => {
+    //     let tagRes = await makeACallTo("tag/all", "GET");
+    //     tags = await tagRes.json();
+    //     let rListRes = await makeACallTo("readingList/all", "GET");
+    //     rlists = await rListRes.json();
+    //     let topicRes = await makeACallTo("topic/all", "GET");
+    //     topics = await topicRes.json();
+    //     addLabel(tags);
+    //     addLabel(rlists);
+    //     addLabel(topics);
+    //     setRLists(rlists);
+    //     setTags(tags);
+    //     setTopics(topics);
+    // };
 
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
+
+    let tags = [{ label: "tag1" ,name:"tag1"}, { label: "tag2" ,name:"tag1"}, { label: "tag3" ,name:"tag1"}];
+    let rlists = [{ label: "tag,1" }, { label: "tag2" }, { label: "tag3" }];
+    let topics = [{ label: "tag1" }, { label: "tag2" }, { label: "tag3" }];
     let handlePost = async () => {
-        let value = editorRef.current.getContent();
-        let dataPath = selectedTopic.value + "/" + title + "_" + Date.now()
-        console.log(dataPath);
-        const { data, error } = await supabase.storage
-            .from("post")
-            .upload(dataPath, value, {
-                // cacheControl: "3600",
-                upsert: true,
-            });
-        console.log(dataPath);
+        // console.log(selectedTag,selectedTopic);
+        console.log(tags);
+        // let value = editorRef.current.getContent();
+        // let dataPath = selectedTopic.value + "/" + title + "_" + Date.now();
+        // console.log(dataPath);
+        // const { data, error } = await supabase.storage
+        //     .from("post")
+        //     .upload(dataPath, value, {
+        //         // cacheControl: "3600",
+        //         upsert: true,
+        //     });
+        // console.log(dataPath);
         // TODO: Backend
     };
     let handleSave = async () => {

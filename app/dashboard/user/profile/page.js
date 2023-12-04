@@ -45,14 +45,14 @@ async function Profile() {
             <section className=" flex gap-[1rem] flex-col">
                 <Box>
                     <ProfileCard className="m-5" avatar={userDetails.avatar} name={userDetails.fullName} roles={userDetails.roles}/>
-                    <Overview classname=" m-5"  />
+                    <Overview postDetail={userDetails.posts} classname=" m-5"  />
                     <div className="flex flex-col w-full">
                         <div className="divider divider-start">Details</div>
                     </div>
                     <Detail bio={userDetails.bio} contact={userDetails.phone} email={userDetails.email} status={userDetails.status.name} username={userDetails.username}/>
                     <Action />
                 </Box>
-                <Statistic />
+                <Statistic detail={userDetails.posts} />
             </section>
             <section className="flex gap-[1rem] flex-col col-span-2">
                 <PasswordReset email = {userDetails.email}/>

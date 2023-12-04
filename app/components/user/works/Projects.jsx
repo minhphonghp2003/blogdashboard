@@ -3,6 +3,7 @@ import Box from '../../shared/box'
 import Image from 'next/image'
 import { CiMenuKebab } from "react-icons/ci";
 import { FaRegCommentAlt } from "react-icons/fa";
+import Delete from './Delete';
 
 
 function Title({ img, title, views }) {
@@ -29,10 +30,9 @@ function Header({ img, id, title, views }) {
           </label>
           <ul tabIndex={0} className="dropdown-content z-[1] menu rounded-box w-52">
             <Box className="bg-[#323249]">
-              <li><a>Rename</a></li>
               <li><a>Details</a></li>
-              <div className="divider"></div>
-              <li ><a className='text-[red] hover:text-[white] hover:bg-[red]'>Delete post</a></li>
+              <div className="divider mb-1 mt-1"></div>
+              <li ><a  onClick={()=>document.getElementById(id).showModal()} className='text-[red] hover:text-[white] hover:bg-[red]'>Delete post</a></li>
             </Box>
           </ul>
 
@@ -70,10 +70,10 @@ function Footer({ tags, topic, readingList, cmts }) {
     <div className='flex justify-between  '>
       <div className='flex flex-wrap w-[70%] gap-1'>
         <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">{topic}</span>
-        <span className="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{readingList}</span>
+        {readingList && <span className="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">{readingList.name}</span>}
         {tags.map(
           t => {
-            return <span key={t} class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{t}</span>
+            return <span key={t.name} class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{t.name}</span>
 
           }
         )}
@@ -90,15 +90,15 @@ function Footer({ tags, topic, readingList, cmts }) {
 }
 
 function Projects({ post }) {
-
   return (
     <Box>
+      <Delete postDetail={post}/>
       <div className='flex flex-col gap-4'>
-        <Header img={post.image} id={post.id} title={post.title} views={post.view_count} ></Header>
-        <Statistic created={post.created_at} likes={post.like_count} shares={post.share_count} updated={post.updated_at} ></Statistic>
+        <Header img={post.imageLink} id={post.id} title={post.title} views={post.viewCount} ></Header>
+        <Statistic created={post.createdAt} likes={post.likeCount} shares={post.shareCount} updated={post.updatedAt} ></Statistic>
         <p>{post.foreword}</p>
         <div className="divider"></div>
-        <Footer cmts={post.comment_count} readingList={post.reading_list} tags={post.tags} topic={post.topic} ></Footer>
+        <Footer cmts={post.comments.length} readingList={post.readingList} tags={post.tags} topic={post.topic.name} ></Footer>
       </div>
     </Box>
   )

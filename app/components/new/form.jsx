@@ -15,37 +15,30 @@ import CardActions from '@mui/material/CardActions'
 import FormControl from '@mui/material/FormControl'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import makeAnimated from 'react-select/animated';
-
-// import Select from '@mui/material/Select'
+import Tags from "@yaireo/tagify/dist/react.tagify"
+import "@yaireo/tagify/dist/tagify.css"
 import Box from '../shared/box'
 import Select from 'react-select';
-
-const animatedComponents = makeAnimated();
-
-const TagField = ({ options, selectedOption, setSelectedOption, isMulti, closeOnSelect }) => {
-    
-    const customstyles = {
-        option: (provided, state) => ({
-            ...provided,
-            borderbottom: '1px dotted pink',
-            padding: 10,
-        })
-    }
-    return <div className=''>
-        <Select
-            styles={customstyles}
-            closeMenuOnSelect={closeOnSelect}
-            components={animatedComponents}
-            defaultValue={selectedOption}
-            isMulti={isMulti}
-            onChange={setSelectedOption}
-            options={options}
-        />
-    </div>
-}
-
+import { useCallback } from 'react'
 
 const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) => {
+    const onChange = ((e, setState) => {
+        setState(e.detail.value)
+    })
+    let tagSettings = {
+        enforceWhitelist: true,
+        dropdown: {
+            enabled: 1,            // show suggestion after 1 typed character
+            fuzzySearch: false,    // match only suggestions that starts with the typed characters
+            position: 'name',      // position suggestions list next to typed text
+        },
+    }
+
+    let singleChoiceSettings = {
+
+        enforceWhitelist: true,
+        mode: "select"
+    }
 
     let checkCanPost = () => {
         return states.topic.selectedTopic && states.title.title
@@ -74,15 +67,30 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
                         </Grid>
                         <Grid item xs={6} >
                             <label className="block mb-2 text-sm font-medium text-gray-900" >Tags</label>
-                            <TagField options={tags} selectedOption={states.tag.selectedTag} setSelectedOption={states.tag.setSelectedTag} isMulti={true} closeOnSelect={false} />
+                            <Tags
+                                className='w-full'
+                                settings={tagSettings}  // tagify settings object
+                                whitelist={tags.map(e => ({ value: e.name, id: e.id }))}
+                                onChange={e => { onChange(e, states.tag.setSelectedTag) }}
+                            />
                         </Grid>
                         <Grid item xs={6}>
                             <label className="block mb-2 text-sm font-medium text-gray-900" >Reading list</label>
-                            <TagField options={rlists} selectedOption={states.rList.selectedRList} setSelectedOption={states.rList.setSelectedRList} isMulti={false} closeOnSelect={true} />
+                            <Tags
+                                className='w-full'
+                                settings={singleChoiceSettings}  // tagify settings object
+                                whitelist={rlists.map(e => ({ value: e.name, id: e.id }))}
+                                onChange={e => { onChange(e, states.rList.setSelectedRList) }}
+                            />
                         </Grid>
                         <Grid item xs={6} >
                             <label className="block mb-2 text-sm font-medium text-gray-900" >Topic</label>
-                            <TagField options={topics} selectedOption={states.topic.selectedTopic} setSelectedOption={states.topic.setSelectedTopic} isMulti={false} closeOnSelect={true} />
+                            <Tags
+                                className='w-full'
+                                settings={singleChoiceSettings}  // tagify settings object
+                                whitelist={topics.map(e => ({ value: e.name, id: e.id }))}
+                                onChange={e => { onChange(e, states.topic.setSelectedTopic) }}
+                            />
 
                         </Grid>
 

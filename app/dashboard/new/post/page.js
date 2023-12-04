@@ -5,6 +5,9 @@ import { createClient } from "@supabase/supabase-js";
 import PostMetadataForm from "@/app/components/new/form";
 import { saveAs } from "file-saver";
 import { makeACallTo } from "@/utils/network";
+import { upload } from "@/utils/storage";
+import { useCookies } from "react-cookie";
+import { useRouter } from 'next/navigation'
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -37,6 +40,9 @@ let addLabel = (list) => {
 };
 
 function Post() {
+    const router = useRouter()
+    const [cookies] = useCookies(["Authorization"]);
+    const token = cookies.Authorization;
     const editorRef = useRef(null);
     const [selectedTag, setSelectedTag] = useState(null);
     const [selectedRList, setSelectedRList] = useState(null);
@@ -71,45 +77,69 @@ function Post() {
         },
     };
 
-    // let [tags, setTags] = useState();
-    // let [rlists, setRLists] = useState();
-    // let [topics, setTopics] = useState();
-    // let fetchData = async () => {
-    //     let tagRes = await makeACallTo("tag/all", "GET");
-    //     tags = await tagRes.json();
-    //     let rListRes = await makeACallTo("readingList/all", "GET");
-    //     rlists = await rListRes.json();
-    //     let topicRes = await makeACallTo("topic/all", "GET");
-    //     topics = await topicRes.json();
-    //     addLabel(tags);
-    //     addLabel(rlists);
-    //     addLabel(topics);
-    //     setRLists(rlists);
-    //     setTags(tags);
-    //     setTopics(topics);
-    // };
+    let [tags, setTags] = useState([]);
+    let [rlists, setRLists] = useState([]);
+    let [topics, setTopics] = useState([]);
+    let fetchData = async () => {
+        let tagRes = await makeACallTo("tag/all", "GET");
+        tags = await tagRes.json();
+        let rListRes = await makeACallTo("readingList/all", "GET");
+        rlists = await rListRes.json();
+        let topicRes = await makeACallTo("topic/all", "GET");
+        topics = await topicRes.json();
+        addLabel(tags);
+        addLabel(rlists);
+        addLabel(topics);
+        setRLists(rlists);
+        setTags(tags);
+        setTopics(topics);
+    };
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    let tags = [{ label: "tag1" ,name:"tag1"}, { label: "tag2" ,name:"tag1"}, { label: "tag3" ,name:"tag1"}];
-    let rlists = [{ label: "tag,1" }, { label: "tag2" }, { label: "tag3" }];
-    let topics = [{ label: "tag1" }, { label: "tag2" }, { label: "tag3" }];
     let handlePost = async () => {
-        // console.log(selectedTag,selectedTopic);
-        console.log(tags);
-        // let value = editorRef.current.getContent();
-        // let dataPath = selectedTopic.value + "/" + title + "_" + Date.now();
-        // console.log(dataPath);
-        // const { data, error } = await supabase.storage
-        //     .from("post")
-        //     .upload(dataPath, value, {
-        //         // cacheControl: "3600",
-        //         upsert: true,
-        //     });
-        // console.log(dataPath);
-        // TODO: Backend
+        let content = editorRef.current.getContent();
+        let contentPath =
+            JSON.parse(selectedTopic)[0].value + "/" + title + "_" + Date.now();
+        contentPath = await upload({
+            from: "post",
+            path: contentPath,
+            body: content,
+            upsert: true,
+        });
+        let imagePath =
+            JSON.parse(selectedTopic)[0].value + "/" + title + "_" + Date.now();
+        imagePath = await upload({
+            from: "image",
+            path: imagePath,
+            body: image,
+            upsert: true,
+        });
+        let tags = JSON.parse(selectedTag);
+        let rList = JSON.parse(selectedRList);
+        let topic = JSON.parse(selectedTopic);
+        let body = {
+            title: title,
+            foreword: foreword,
+            imageLink: imagePath,
+            postLink: contentPath,
+            readingListId: rList ? rList[0].id : null,
+            topicId: topic[0].id,
+            tagIds: tags
+                ? tags.map((t) => {
+                      return t.id;
+                  })
+                : null,
+        };
+        let res = await makeACallTo("post/", "POST", {"Authorization":token},JSON.stringify(body));
+        if(res.status==200){
+            alert("Create Post successfully")
+            router.push("/dashboard")
+        }else{
+            console.log(res);
+        }
     };
     let handleSave = async () => {
         let value = editorRef.current.getContent();

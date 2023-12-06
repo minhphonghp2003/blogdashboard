@@ -21,12 +21,12 @@ function ReadingList({ className }) {
         setDesc(e.target.value)
     }
     let handleSubmit = async () => {
-        const path = "image/" + name + image.name
+        const path = "readingList/" + name 
 
         image = await upload({ from: "image", path, body: image, upsert: true })
         let data = {
             name: name,
-            image: image,
+            image: path,
             description: description
         }
         let res = await makeACallTo("readingList/", "POST", {

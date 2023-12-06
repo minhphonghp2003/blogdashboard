@@ -21,12 +21,12 @@ function Topic({ className }) {
         setDesc(e.target.value)
     }
     let handleSubmit = async () => {
-        const path = "icon/" + name + icon.name
+        const path = "topic/" + name 
       
         icon = await upload({ from: "image", path, body: icon, upsert: true })
         let data = {
             name: name,
-            icon: icon,
+            icon: path,
             description: description
         }
         let res = await makeACallTo("topic/", "POST", {

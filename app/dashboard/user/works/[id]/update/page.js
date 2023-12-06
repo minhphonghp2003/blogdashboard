@@ -1,15 +1,15 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
 import PostMetadataForm from "@/app/components/new/form";
-import { fetchPostData, makeACallTo } from "@/utils/network";
-import { upload } from "@/utils/storage";
+import TextEditor from "@/app/components/shared/TextEditor";
+import Box from "@/app/components/shared/box";
+import Loading from "@/app/components/user/works/Loading";
+import { addValue, fetchPostData, makeACallTo } from "@/utils/network";
+import { download, upload } from "@/utils/storage";
+import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
-import TextEditor from "@/app/components/shared/TextEditor";
-import { savePost } from "@/utils/helpder";
-import { CardHeader, Divider, Typography } from "@mui/material";
 
-function Post() {
+function Update({ params }) {
     const router = useRouter();
     const [cookies] = useCookies(["Authorization"]);
     const token = cookies.Authorization;
@@ -46,45 +46,40 @@ function Post() {
             setForeword,
         },
     };
-
     let [tags, setTags] = useState([]);
     let [rlists, setRLists] = useState([]);
     let [topics, setTopics] = useState([]);
+    let [content, setContent] = useState();
+    let [post, setPost] = useState();
 
-    useEffect(() => {
-        fetchPostData({ rlists, setRLists, setTags, tags, setTopics, topics });
-    }, []);
-
-    let handlePost = async () => {
-        let content = editorRef.current.getContent();
-        let path =
-            JSON.parse(selectedTopic)[0].value + "/" + title + "_" + Date.now();
+    let handleSubmit = async () => {
         await upload({
-            from: "post",
-            path: path,
-            body: content,
+            from: "image",
+            path: post.imageLink,
+            body: image,
             upsert: true,
         });
 
         await upload({
-            from: "image",
-            path: path,
-            body: image,
+            from: "post",
+            path: post.postLink,
+            body: editorRef.current.getContent(),
             upsert: true,
         });
         let tags = JSON.parse(selectedTag);
         let rList = JSON.parse(selectedRList);
         let topic = JSON.parse(selectedTopic);
+
         let body = {
+            id: post.id,
             title: title,
             foreword: foreword,
-            imageLink: path,
-            postLink: path,
             readingListId: rList ? rList[0].id : null,
             topicId: topic[0].id,
             tagIds: tags
                 ? tags
                       .filter((t) => {
+                          console.log(t.id);
                           if (t.id != undefined) {
                               return t.id;
                           }
@@ -96,39 +91,56 @@ function Post() {
         };
         let res = await makeACallTo(
             "post/",
-            "POST",
+            "PUT",
             { Authorization: token },
             JSON.stringify(body)
         );
         if (res.status == 200) {
-            alert("Create Post successfully");
-            router.push("/dashboard");
-        }else{
+            alert("Update successfully");
+            router.push("/dashboard/user/works");
+        } else {
             alert("Error. Contact admin for information");
         }
     };
-    let handleSave = () => {
-        savePost({ editorRef });
+    let fetchPost = async () => {
+        let res = await makeACallTo(`post/?id=${params.id}`, "GET");
+        let data = await res.json();
+        setPost(data);
+        setTitle(data.title);
+        setImage(await download({ path: data.imageLink, from: "image" }));
+        setForeword(data.foreword);
+        setContent(await download({ from: "post", path: data.postLink }));
+        addValue(data.tags);
+        setSelectedTag(JSON.stringify(data.tags));
+        setSelectedRList(JSON.stringify([data.readingList]));
+        setSelectedTopic(JSON.stringify([data.topic]));
     };
+    useEffect(() => {
+        fetchPost();
+        fetchPostData({ rlists, setRLists, setTags, tags, setTopics, topics });
+    }, []);
 
     return (
-        <div className="mt-10 mb-52 flex flex-col gap-2 ">
-            <CardHeader
-                title="Create new post"
-                titleTypographyProps={{ variant: "h6" }}
-            />
-
-            <PostMetadataForm
-                onSubmit={handlePost}
-                onSave={handleSave}
-                rlists={rlists}
-                tags={tags}
-                topics={topics}
-                states={states}
-            />
-            <TextEditor editorRef={editorRef} />
+        <div>
+            <Box>
+                <p className="text-lg text-white mb-5">Update</p>
+                {!post && <Loading />}
+                {post && (
+                    <div>
+                        <TextEditor editorRef={editorRef} initValue={content} />
+                        <PostMetadataForm
+                            onSave={() => {}}
+                            onSubmit={handleSubmit}
+                            rlists={rlists}
+                            states={states}
+                            tags={tags}
+                            topics={topics}
+                        />
+                    </div>
+                )}
+            </Box>
         </div>
     );
 }
 
-export default Post;
+export default Update;

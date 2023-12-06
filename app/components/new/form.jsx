@@ -12,21 +12,17 @@ import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
-import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import makeAnimated from 'react-select/animated';
+
 import Tags from "@yaireo/tagify/dist/react.tagify"
 import "@yaireo/tagify/dist/tagify.css"
 import Box from '../shared/box'
-import Select from 'react-select';
-import { useCallback } from 'react'
 
 const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) => {
     const onChange = ((e, setState) => {
         setState(e.detail.value)
     })
     let tagSettings = {
-        enforceWhitelist: true,
+        // enforceWhitelist: true,
         dropdown: {
             enabled: 1,            // show suggestion after 1 typed character
             fuzzySearch: false,    // match only suggestions that starts with the typed characters
@@ -35,7 +31,9 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
     }
 
     let singleChoiceSettings = {
-
+        dropdown:{
+            maxItems:99
+        },
         enforceWhitelist: true,
         mode: "select"
     }
@@ -44,38 +42,34 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
         return states.topic.selectedTopic && states.title.title
     }
     return (
-        <Box className="bg-slate-100 z-2 text-black">
-            <CardHeader title='Post Information' titleTypographyProps={{ variant: 'h6' }} />
-            <Divider sx={{ margin: 0 }} />
+        <Box className=" z-2 text-white">
+
             <form onSubmit={e => e.preventDefault()}>
                 <CardContent>
                     <Grid container spacing={5}>
                         <Grid item xs={12}>
-                            <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                                After giving some information, enjoy editing your post in the below text-editor.
-                            </Typography>
+                            <label className="block mb-2 text-sm font-medium text-white" >Title</label>
+                            <input className="input input-bordered w-full bg-inherit" onChange={e => { states.title.setTitle(e.target.value) }} value={states.title.title ? states.title.title : 'Some awesome title...'} />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField onChange={e => { states.title.setTitle(e.target.value) }} fullWidth label='Title' placeholder='Some awesome title...' />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField onChange={e => { states.foreword.setForeword(e.target.value) }} fullWidth label='Forewords' placeholder='Any forewords?' />
+                            <label className="block mb-2 text-sm font-medium text-white" >Foreword</label>
+                            <input className="input input-bordered w-full bg-inherit" onChange={e => { states.foreword.setForeword(e.target.value) }} value={states.foreword.foreword ? states.foreword.foreword : 'Any forewords?'} />
                         </Grid>
                         <Grid item xs={6}>
-                            <label className="block mb-2 text-sm font-medium text-gray-900" for="file_input">Upload post image</label>
+                            <label className="block mb-2 text-sm font-medium text-white" for="file_input">Upload post image</label>
                             <input onChange={e => { states.image.setImage(e.target.files[0]) }} className="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer  :text-gray-400 focus:outline-none :bg-gray-700 :border-gray-600 :placeholder-gray-400" id="file_input" type="file"></input>
                         </Grid>
                         <Grid item xs={6} >
-                            <label className="block mb-2 text-sm font-medium text-gray-900" >Tags</label>
+                            <label className="block mb-2 text-sm font-medium text-white" >Tags</label>
                             <Tags
                                 className='w-full'
                                 settings={tagSettings}  // tagify settings object
-                                whitelist={tags.map(e => ({ value: e.name, id: e.id }))}
+                                whitelist={tags.map(e => ({ id: e.id, name: e.name, value: e.name }))}
                                 onChange={e => { onChange(e, states.tag.setSelectedTag) }}
                             />
                         </Grid>
                         <Grid item xs={6}>
-                            <label className="block mb-2 text-sm font-medium text-gray-900" >Reading list</label>
+                            <label className="block mb-2 text-sm font-medium text-white" >Reading list</label>
                             <Tags
                                 className='w-full'
                                 settings={singleChoiceSettings}  // tagify settings object
@@ -84,7 +78,7 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
                             />
                         </Grid>
                         <Grid item xs={6} >
-                            <label className="block mb-2 text-sm font-medium text-gray-900" >Topic</label>
+                            <label className="block mb-2 text-sm font-medium text-white" >Topic</label>
                             <Tags
                                 className='w-full'
                                 settings={singleChoiceSettings}  // tagify settings object
@@ -102,7 +96,7 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
                         onClick={onSubmit}
                         className={`${checkCanPost() ? "" : "btn-disabled"} btn btn-xs h-[3rem] w-[10rem] bg-[#696cff] text-white`}
                     >
-                        Post
+                        Submit
                     </button>
                     <Button onClick={onSave} size='large' variant='outlined'>
                         Save

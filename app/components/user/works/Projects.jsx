@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { CiMenuKebab } from "react-icons/ci";
 import { FaRegCommentAlt } from "react-icons/fa";
 import Delete from './Delete';
+import Link from 'next/link';
 
 
 function Title({ img, title, views }) {
@@ -30,7 +31,7 @@ function Header({ img, id, title, views }) {
           </label>
           <ul tabIndex={0} className="dropdown-content z-[1] menu rounded-box w-52">
             <Box className="bg-[#323249]">
-              <li><a>Details</a></li>
+              <li><Link href={`./works/${id}`}>Details</Link></li>
               <div className="divider mb-1 mt-1"></div>
               <li ><a  onClick={()=>document.getElementById(id).showModal()} className='text-[red] hover:text-[white] hover:bg-[red]'>Delete post</a></li>
             </Box>

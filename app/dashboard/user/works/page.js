@@ -5,6 +5,7 @@ import Loading from "@/app/components/user/works/Loading";
 import Projects from "@/app/components/user/works/Projects";
 import { parseJwt } from "@/utils/helpder";
 import { makeACallTo } from "@/utils/network";
+import { getPublicUrl } from "@/utils/storage";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
@@ -27,7 +28,8 @@ function Works() {
             "GET"
         );
         let fetched = await res.json();
-        fetched.content.map((p) => {
+        fetched.content.map(async(p) => {
+           p.imageLink =await getPublicUrl({from:"image",path:p.imageLink}) 
            p.createdAt = p.createdAt.split("T")[0] 
            p.updatedAt = p.updatedAt.split("T")[0] 
         });

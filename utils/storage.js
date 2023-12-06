@@ -10,11 +10,14 @@ export let getPublicUrl = async ({ from, path }) => {
     return publicUrl;
 };
 
-export let upload = async ({ from,  path, body, upsert }) => {
-    let { data, error } = await supabase.storage
-        .from(from)
-        .upload(path, body, {
-            upsert: upsert,
-        });
-        return getPublicUrl({from, path})
+export let upload = async ({ from, path, body, upsert }) => {
+    let { data, error } = await supabase.storage.from(from).upload(path, body, {
+        upsert: upsert,
+    });
+    return getPublicUrl({ from, path });
+};
+
+export let download = async ({ from, path }) => {
+    let { data, error } = await supabase.storage.from(from).download(path);
+    return await data.text()
 };

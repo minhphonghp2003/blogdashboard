@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { CookiesProvider, useCookies } from "react-cookie";
 import { useEffect } from "react";
 import Login from "../authentication/page";
+import { getPublicUrl } from "@/utils/storage";
+import { strip } from "@/utils/helpder";
 function DashboardLayout({ children }) {
     const [cookies, setCookie, removeCookie] = useCookies(["Authorization"]);
     let [user, setUser] = useState();
@@ -30,7 +32,7 @@ function DashboardLayout({ children }) {
                 router.push("/");
             }
             data = await data.json()
-
+            data.avatar = await getPublicUrl({from:"image", path:`avatar/${data.email}/${strip(data.fullName)}`})
             setUser(data);
         } catch (error) {
             removeCookie("Authorization");

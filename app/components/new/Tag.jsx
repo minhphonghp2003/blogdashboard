@@ -16,9 +16,9 @@ function Tag({ className }) {
         let res =await makeACallTo("tag/","POST",{"Authorization":token},name)
         let tag = await res.json()
         if (tag.status == "ACTIVE") {
-            alert("Topic created successfully")
+            alert("Tag created successfully")
         } else {
-            alert("Request to create topic sent")
+            alert("Request to create tag sent")
         }
        
     }

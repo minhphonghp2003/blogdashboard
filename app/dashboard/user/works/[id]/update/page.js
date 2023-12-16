@@ -8,12 +8,12 @@ import { download, upload } from "@/utils/storage";
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
+import QuillEditor from "@/app/components/shared/QuillEditor";
 
 function Update({ params }) {
     const router = useRouter();
     const [cookies] = useCookies(["Authorization"]);
     const token = cookies.Authorization;
-    const editorRef = useRef(null);
     const [selectedTag, setSelectedTag] = useState([]);
     const [selectedRList, setSelectedRList] = useState(null);
     const [selectedTopic, setSelectedTopic] = useState(null);
@@ -49,6 +49,7 @@ function Update({ params }) {
     let [tags, setTags] = useState([]);
     let [rlists, setRLists] = useState([]);
     let [topics, setTopics] = useState([]);
+    let [isInit, setisInit] = useState(false);
     let [content, setContent] = useState();
     let [post, setPost] = useState();
 
@@ -63,7 +64,7 @@ function Update({ params }) {
         await upload({
             from: "post",
             path: post.postLink,
-            body: editorRef.current.getContent(),
+            body: content,
             upsert: true,
         });
         let tags = JSON.parse(selectedTag);
@@ -74,7 +75,7 @@ function Update({ params }) {
             id: post.id,
             title: title,
             foreword: foreword,
-            readingListId: rList ? rList[0].id : null,
+            readingListId: rList[0] ? rList[0].id : null,
             topicId: topic[0].id,
             tagIds: tags
                 ? tags
@@ -110,6 +111,7 @@ function Update({ params }) {
         setImage(await download({ path: data.imageLink, from: "image" }));
         setForeword(data.foreword);
         setContent(await download({ from: "post", path: data.postLink }));
+        setisInit(true);
         addValue(data.tags);
         setSelectedTag(JSON.stringify(data.tags));
         setSelectedRList(JSON.stringify([data.readingList]));
@@ -122,12 +124,11 @@ function Update({ params }) {
 
     return (
         <div>
-            <Box>
+            <Box  >
                 <p className="text-lg text-white mb-5">Update</p>
                 {!post && <Loading />}
                 {post && (
                     <div>
-                        <TextEditor editorRef={editorRef} initValue={content} />
                         <PostMetadataForm
                             onSave={() => {}}
                             onSubmit={handleSubmit}
@@ -135,6 +136,11 @@ function Update({ params }) {
                             states={states}
                             tags={tags}
                             topics={topics}
+                        />
+                        <QuillEditor
+                            isInit={isInit}
+                            onChange={setContent}
+                            initValue={content}
                         />
                     </div>
                 )}

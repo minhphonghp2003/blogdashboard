@@ -54,13 +54,14 @@ function Update({ params }) {
     let [post, setPost] = useState();
 
     let handleSubmit = async () => {
-        await upload({
-            from: "image",
-            path: post.imageLink,
-            body: image,
-            upsert: true,
-        });
-
+        if (image) {
+            await upload({
+                from: "image",
+                path: post.imageLink,
+                body: image,
+                upsert: true,
+            });
+        }
         await upload({
             from: "post",
             path: post.postLink,
@@ -108,7 +109,6 @@ function Update({ params }) {
         let data = await res.json();
         setPost(data);
         setTitle(data.title);
-        setImage(await download({ path: data.imageLink, from: "image" }));
         setForeword(data.foreword);
         setContent(await download({ from: "post", path: data.postLink }));
         setisInit(true);
@@ -124,7 +124,7 @@ function Update({ params }) {
 
     return (
         <div>
-            <Box  >
+            <Box>
                 <p className="text-lg text-white mb-5">Update</p>
                 {!post && <Loading />}
                 {post && (

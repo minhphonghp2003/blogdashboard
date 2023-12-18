@@ -27,7 +27,7 @@ async function Profile() {
             fetchOptions
         )
     ).json();
-    userDetails.avatar = await getPublicUrl({
+    let avatar = await getPublicUrl({
         from: "image",
         path: "avatar/" + userDetails.email + "/" + strip(userDetails.fullName),
     });
@@ -52,7 +52,7 @@ async function Profile() {
                 <Box>
                     <ProfileCard
                         className="m-5"
-                        avatar={userDetails.avatar}
+                        avatar={avatar}
                         name={userDetails.fullName}
                         roles={userDetails.roles}
                     />

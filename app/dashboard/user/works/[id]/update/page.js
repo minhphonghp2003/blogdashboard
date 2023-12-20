@@ -1,6 +1,5 @@
 "use client";
 import PostMetadataForm from "@/app/components/new/form";
-import TextEditor from "@/app/components/shared/TextEditor";
 import Box from "@/app/components/shared/box";
 import Loading from "@/app/components/user/works/Loading";
 import { addValue, fetchPostData, makeACallTo } from "@/utils/network";
@@ -8,7 +7,12 @@ import { download, upload } from "@/utils/storage";
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
-import QuillEditor from "@/app/components/shared/QuillEditor";
+import dynamic from "next/dynamic";
+import Editorjs from "@/app/components/shared/Editorjs";
+
+const EditorBlock = dynamic(() => import("@/app/components/shared/Editorjs"), {
+  ssr: false,
+});
 
 function Update({ params }) {
     const router = useRouter();
@@ -49,7 +53,6 @@ function Update({ params }) {
     let [tags, setTags] = useState([]);
     let [rlists, setRLists] = useState([]);
     let [topics, setTopics] = useState([]);
-    let [isInit, setisInit] = useState(false);
     let [content, setContent] = useState();
     let [post, setPost] = useState();
 
@@ -65,7 +68,7 @@ function Update({ params }) {
         await upload({
             from: "post",
             path: post.postLink,
-            body: content,
+            body: JSON.stringify(content),
             upsert: true,
         });
         let tags = JSON.parse(selectedTag);
@@ -110,8 +113,7 @@ function Update({ params }) {
         setPost(data);
         setTitle(data.title);
         setForeword(data.foreword);
-        setContent(await download({ from: "post", path: data.postLink }));
-        setisInit(true);
+        setContent(JSON.parse(await download({ from: "post", path: data.postLink })));
         addValue(data.tags);
         setSelectedTag(JSON.stringify(data.tags));
         setSelectedRList(JSON.stringify([data.readingList]));
@@ -121,13 +123,12 @@ function Update({ params }) {
         fetchPost();
         fetchPostData({ rlists, setRLists, setTags, tags, setTopics, topics });
     }, []);
-
     return (
         <div>
             <Box>
                 <p className="text-lg text-white mb-5">Update</p>
                 {!post && <Loading />}
-                {post && (
+                {post && content && (
                     <div>
                         <PostMetadataForm
                             onSave={() => {}}
@@ -137,11 +138,12 @@ function Update({ params }) {
                             tags={tags}
                             topics={topics}
                         />
-                        <QuillEditor
-                            isInit={isInit}
+                        {/* <NovelEditor
                             onChange={setContent}
-                            initValue={content}
-                        />
+                            defaultValue={content}
+                        /> */}
+                        <EditorBlock data={content} holder="update-editor" onChange={setContent}/>
+                        
                     </div>
                 )}
             </Box>

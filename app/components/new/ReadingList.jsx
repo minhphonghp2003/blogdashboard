@@ -53,7 +53,7 @@ function ReadingList({ className }) {
                 <label className="block my-4 text-sm font-medium text-white" for="file_input">Upload Reading list image</label>
                 <input onChange={e => { setImage(e.target.files[0]) }} className="block w-full text-sm  border border-gray-300 rounded-lg cursor-pointer  :text-gray-400 focus:outline-none :bg-gray-700 :border-gray-600 :placeholder-gray-400" id="file_input" type="file"></input>
                 <p className='mt-6 text-white '>Description</p>
-                <textarea onChange={handleDescChange} className="textarea textarea-bordered bg-inherit w-full h-40" placeholder="Description"></textarea>
+                <textarea maxLength="80" onChange={handleDescChange} className="textarea textarea-bordered bg-inherit w-full h-10" placeholder="Description"></textarea>
 
 
             </Box>

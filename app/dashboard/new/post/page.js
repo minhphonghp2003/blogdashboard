@@ -5,11 +5,15 @@ import { fetchPostData, makeACallTo } from "@/utils/network";
 import { upload } from "@/utils/storage";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
-import TextEditor from "@/app/components/shared/TextEditor";
 import { convertString, savePost, strip } from "@/utils/helpder";
+import dynamic from "next/dynamic";
 import { CardHeader, Divider, Typography } from "@mui/material";
-import QuillEditor from "@/app/components/shared/QuillEditor";
-import { useQuill } from "react-quilljs";
+import NovelEditor from "@/app/components/shared/NovelEditor";
+import Preview from "@/app/components/shared/Preview";
+
+const EditorBlock = dynamic(() => import("@/app/components/shared/Editorjs"), {
+    ssr: false,
+});
 
 function Post() {
     const router = useRouter();
@@ -68,7 +72,7 @@ function Post() {
         await upload({
             from: "post",
             path: path,
-            body: content,
+            body: JSON.stringify(content),
             upsert: true,
         });
         await upload({
@@ -113,7 +117,7 @@ function Post() {
         }
     };
     let handleSave = () => {
-        // savePost({ editorRef });
+        console.log(content);
     };
 
     return (
@@ -131,8 +135,13 @@ function Post() {
                 topics={topics}
                 states={states}
             />
-            {/* <TextEditor editorRef={editorRef} /> */}
-            <QuillEditor onChange={setContent} />
+            {/* <NovelEditor defaultValue="Start here" onChange={setContent} /> */}
+            {/* <LexicalEditor/> */}
+            <EditorBlock holder="editorjs-container" onChange={setContent} />
+            {/* {
+                content&&<Preview data={content}/>
+            } */}
+            {/* <BlockNote/> */}
         </div>
     );
 }

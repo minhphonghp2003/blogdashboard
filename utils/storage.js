@@ -21,3 +21,7 @@ export let download = async ({ from, path }) => {
     let { data, error } = await supabase.storage.from(from).download(path);
     return await data.text()
 };
+
+export let savePost = async({data})=>{
+
+}

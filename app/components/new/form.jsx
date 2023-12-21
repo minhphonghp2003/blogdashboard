@@ -17,7 +17,7 @@ import Tags from "@yaireo/tagify/dist/react.tagify"
 import "@yaireo/tagify/dist/tagify.css"
 import Box from '../shared/box'
 
-const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) => {
+const PostMetadataForm = ({ onSubmit, onSave, onUpload, states, tags, rlists, topics }) => {
     const onChange = ((e, setState) => {
         setState(e.detail.value)
     })
@@ -31,8 +31,8 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
     }
 
     let singleChoiceSettings = {
-        dropdown:{
-            maxItems:99
+        dropdown: {
+            maxItems: 99
         },
         enforceWhitelist: true,
         mode: "select"
@@ -101,7 +101,16 @@ const PostMetadataForm = ({ onSubmit, onSave, states, tags, rlists, topics }) =>
                     <Button onClick={onSave} size='large' variant='outlined'>
                         Save
                     </Button>
-
+                    {
+                        onUpload &&
+                        <div className='mx-8'>
+                            <input
+                                type='file'
+                                onChange={e => { onUpload(e.target.files[0]) }}
+                                className='w-full cursor-pointer rounded-md border border-stroke text-dark-6 outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-gray-2  file:py-3 file:px-5 file:text-body-color dark:file:text-dark-6 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-gray-2'
+                            />
+                        </div>
+                    }
                 </CardActions>
             </form>
         </Box>

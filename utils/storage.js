@@ -19,9 +19,12 @@ export let upload = async ({ from, path, body, upsert }) => {
 
 export let download = async ({ from, path }) => {
     let { data, error } = await supabase.storage.from(from).download(path);
-    return await data.text()
+    return await data.text();
 };
 
-export let savePost = async({data})=>{
-
-}
+export let saveJSON = async ({ data, fileName }) => {
+    const file = new Blob([JSON.stringify(data, null, 2)], {
+        type: "text/plain;charset=utf-8",
+    });
+    saveAs(file, fileName);
+};

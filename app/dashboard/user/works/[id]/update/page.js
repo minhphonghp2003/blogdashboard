@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 import Editorjs from "@/app/components/shared/Editorjs";
 
 const EditorBlock = dynamic(() => import("@/app/components/shared/Editorjs"), {
-  ssr: false,
+    ssr: false,
 });
 
 function Update({ params }) {
@@ -113,7 +113,9 @@ function Update({ params }) {
         setPost(data);
         setTitle(data.title);
         setForeword(data.foreword);
-        setContent(JSON.parse(await download({ from: "post", path: data.postLink })));
+        setContent(
+            JSON.parse(await download({ from: "post", path: data.postLink }))
+        );
         addValue(data.tags);
         setSelectedTag(JSON.stringify(data.tags));
         setSelectedRList(JSON.stringify([data.readingList]));
@@ -131,19 +133,23 @@ function Update({ params }) {
                 {post && content && (
                     <div>
                         <PostMetadataForm
-                            onSave={() => {}}
+                            onSave={() => {
+                                saveJSON({
+                                    data: content,
+                                    fileName: "draft.txt",
+                                });
+                            }}
                             onSubmit={handleSubmit}
                             rlists={rlists}
                             states={states}
                             tags={tags}
                             topics={topics}
                         />
-                        {/* <NovelEditor
+                        <EditorBlock
+                            data={content}
+                            holder="update-editor"
                             onChange={setContent}
-                            defaultValue={content}
-                        /> */}
-                        <EditorBlock data={content} holder="update-editor" onChange={setContent}/>
-                        
+                        />
                     </div>
                 )}
             </Box>

@@ -16,28 +16,20 @@ import Paragraph from "@editorjs/paragraph";
 import Header from "@editorjs/header";
 import Strikethrough from "@sotaproject/strikethrough";
 import ChangeCase from "editorjs-change-case";
-import NestedList from '@editorjs/nested-list';
+import NestedList from "@editorjs/nested-list";
 import createGenericInlineTool, {
     ItalicInlineTool,
     UnderlineInlineTool,
 } from "editorjs-inline-tool";
 const ColorPlugin = require("editorjs-text-color-plugin");
+const Superscript = require("editorjs2-superscript");
 const Hyperlink = require("editorjs-hyperlink");
-
+const Subscript = require("editorjs2-subscript");
 const Table = require("editorjs-table");
 
 export const EDITOR_TOOLS = {
-    // hyperlink: {
-    //     class: Hyperlink,
-    //     config: {
-    //         shortcut: "CMD+L",
-    //         target: "_blank",
-    //         rel: "nofollow",
-    //         availableTargets: ["_blank", "_self"],
-    //         availableRels: ["author", "noreferrer"],
-    //         validate: false,
-    //     },
-    // },
+    superScript: Superscript,
+    subScript: Subscript,
     changeCase: {
         class: ChangeCase,
         config: {
@@ -88,15 +80,12 @@ export const EDITOR_TOOLS = {
             defaultLevel: 3,
         },
     },
-    // table: {
-    //     inlineToolbar: true,
-    //     class: Table,
-    // },
+
     paragraph: {
         class: Paragraph,
         // inlineToolbar: true,
     },
-  
+
     embed: {
         class: Embed,
         // inlineToolbar: true,
@@ -120,7 +109,7 @@ export const EDITOR_TOOLS = {
         class: List,
         // inlineToolbar: true,
     },
-    nestedList:NestedList,
+    nestedList: NestedList,
     quote: {
         class: Quote,
         // inlineToolbar: true,

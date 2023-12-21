@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import PostMetadataForm from "@/app/components/new/form";
 import { fetchPostData, makeACallTo } from "@/utils/network";
-import { upload } from "@/utils/storage";
+import { saveJSON, upload } from "@/utils/storage";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import { convertString, savePost, strip } from "@/utils/helpder";
@@ -19,13 +19,13 @@ function Post() {
     const router = useRouter();
     const [cookies] = useCookies(["Authorization"]);
     const token = cookies.Authorization;
-    // const editorRef = useRef(null);
     const [selectedTag, setSelectedTag] = useState([]);
     const [selectedRList, setSelectedRList] = useState(null);
     const [selectedTopic, setSelectedTopic] = useState(null);
     const [image, setImage] = useState();
     const [content, setContent] = useState();
     const [title, setTitle] = useState();
+    const [fileupload, setUpload] = useState();
     const [foreword, setForeword] = useState();
     const states = {
         tag: {
@@ -117,9 +117,26 @@ function Post() {
         }
     };
     let handleSave = () => {
-        console.log(content);
+        saveJSON({ data: content, fileName: "draft.txt" });
     };
-
+    let handleUpload = (file) => {
+        var reader = new FileReader();
+        if (file) {
+            reader.readAsText(file, "UTF-8");
+            reader.onload = function (evt) {
+                try {
+                    let uploadData = JSON.parse(evt.target.result);
+                    setUpload(uploadData);
+                    setContent(uploadData);
+                } catch (error) {
+                    alert("Cannot upload file");
+                }
+            };
+            reader.onerror = () => {
+                alert("Cannot upload file");
+            };
+        }
+    };
     return (
         <div className="mt-10 mb-52 flex flex-col gap-2 ">
             <CardHeader
@@ -130,6 +147,7 @@ function Post() {
             <PostMetadataForm
                 onSubmit={handlePost}
                 onSave={handleSave}
+                onUpload={handleUpload}
                 rlists={rlists}
                 tags={tags}
                 topics={topics}
@@ -137,7 +155,20 @@ function Post() {
             />
             {/* <NovelEditor defaultValue="Start here" onChange={setContent} /> */}
             {/* <LexicalEditor/> */}
-            <EditorBlock holder="editorjs-container" onChange={setContent} />
+            {/* {upload ? (
+                <EditorBlock
+                    holder="editorjs"
+                    upload={upload}
+                    onChange={setContent}
+                />
+            ) : (
+                <EditorBlock holder="editorjs" onChange={setContent} />
+            )} */}
+            <EditorBlock
+                holder="editorjs-container"
+                upload={fileupload}
+                onChange={setContent}
+            />
             {/* {
                 content&&<Preview data={content}/>
             } */}

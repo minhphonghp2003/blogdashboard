@@ -12,40 +12,41 @@ import { useCookies } from "react-cookie";
 function Works() {
     const [cookies] = useCookies(["Authorization"]);
     const token = cookies.Authorization;
-    let userId =token? parseJwt(token).jti:null;
+    let userId = token ? parseJwt(token).jti : null;
     let [posts, setPosts] = useState([]);
     let [isLoading, setLoading] = useState(true);
-    let [current, setCurrent] = useState(1);
-    let [pageCount, setPageCount] = useState(1);
     const fetchPosts = async () => {
         let searchParams = {
-            page: current - 1,
-            limit: "9",
+            page:0,
+            limit: 9999,
             authorId: userId,
+            sortBy:"updated_at"
         };
         let res = await makeACallTo(
-            "post/author?" + new URLSearchParams(searchParams),
+            `post/all?` +
+                new URLSearchParams(searchParams),
             "GET"
         );
         let fetched = await res.json();
-        fetched.content.map(async(p) => {
-           p.imageLink =await getPublicUrl({from:"image",path:p.imageLink}) 
-           p.createdAt = p.createdAt.split("T")[0] 
-           p.updatedAt = p.updatedAt.split("T")[0] 
+        fetched.content.map(async (p) => {
+            p.imageLink = await getPublicUrl({
+                from: "image",
+                path: p.imageLink,
+            });
+            p.createdAt = p.createdAt.split("T")[0];
+            p.updatedAt = p.updatedAt.split("T")[0];
         });
-        
+
         setPosts(fetched.content);
-        setPageCount(fetched.totalPages)
         setLoading(false);
     };
     useEffect(() => {
         fetchPosts();
-    }, [current]);
+    }, []);
 
     if (isLoading) {
         return <Loading />;
     }
-
 
     return (
         <div>
@@ -54,11 +55,6 @@ function Works() {
                     return <Projects key={p.id} post={p} />;
                 })}
             </div>
-            <Paginate
-                current={current}
-                pageCount={pageCount}
-                setCurrent={setCurrent}
-            />
         </div>
     );
 }

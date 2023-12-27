@@ -23,16 +23,16 @@ function Overview({ classname, postDetail }) {
   let view = 0
   if (postDetail) {
     postDetail.map(d => {
-      like += d.likeCount ? d.likeCount : 0
-      share += d.shareCount ? d.shareCount : 0
-      view += d.viewCount ? d.viewCount : 0
+      like += d.likeReader.length
+      share += d.postStatistic.shareCount
+      view += d.postStatistic.viewCount
     })
   }
   let pointIcon = <button className="btn bg-[#35365f]"><FaCheck /></button>
   let projectIcon = <button className="btn bg-[#35365f]"><GoProjectRoadmap /></button>
   return (
     <div className={`${classname} flex justify-around gap-4`}>
-      <DetailBadget icon={pointIcon} name="Point" amount={like * 2 + share * 3 + view +postDetail.length} />
+      <DetailBadget icon={pointIcon} name="Point" amount={like * 2 + share * 3 + view + postDetail.length} />
       <DetailBadget icon={projectIcon} name="Project done" amount={postDetail.length} />
     </div>
   )

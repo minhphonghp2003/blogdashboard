@@ -102,11 +102,10 @@ function Item({ id, name, link, icon, userId }) {
 
 function Social({ socials, userId }) {
 
-
     let social = [
-        { id: "", name: "Website", link: "", icon: <CgWebsite  color='blue'/> },
+        { id: "", name: "Website", link: "", icon: <CgWebsite color='blue' /> },
         { id: "", name: "Github", link: "", icon: <FaGithub color='black' /> },
-        { id: "", name: "BuyMeACoffee", link: "", icon: <SiBuymeacoffee color='yellow'/> },
+        { id: "", name: "BuyMeACoffee", link: "", icon: <SiBuymeacoffee color='yellow' /> },
         { id: "", name: "Facebook", link: "", icon: <FaFacebookF color='#316FF6' /> },
         { id: "", name: "Instagram", link: "", icon: <FaInstagramSquare color='#bc2a8d' /> },
         { id: "", name: "Twitter", link: "", icon: <FaTwitter color='white' /> },
@@ -120,7 +119,7 @@ function Social({ socials, userId }) {
                 <p className=''>Display content from social accounts on your site</p>
                 {
                     social.map(s => {
-                        socials.map(e => {
+                        socials && socials.map(e => {
                             if (e.name === s.name) {
                                 s.id = e.id
                                 s.link = e.link

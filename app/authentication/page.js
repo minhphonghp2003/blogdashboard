@@ -1,34 +1,31 @@
-"use client"
-import React, { useState ,useEffect} from 'react'
+"use client";
+import React, { useState, useEffect } from "react";
 import LoginForm from "../components/authentication/login";
-import { CookiesProvider, useCookies } from "react-cookie";
-import { useRouter } from 'next/navigation'
-
+import { useRouter } from "next/navigation";
 
 function Login() {
-    const [cookies, setCookie, removeCookie] = useCookies(['Authorization']);
+    let router = useRouter();
+ 
     let [isError, setError] = useState(false);
-    let router = useRouter()
     let handleLogin = async ({ username, password }) => {
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),
         };
-        try {
-            let result = await fetch(
-                process.env.NEXT_PUBLIC_BACKEND + "user/login",
-                requestOptions
-            );
-            result = await result.json();
-            if (!result.token) {
-                setError(true);
-                return;
-            }
-            setCookie("Authorization", result.token);
-            setError(false);
-            router.push("/")
-        } catch (error) {}
+        let result = await fetch(
+            process.env.NEXT_PUBLIC_BACKEND + "user/login",
+            requestOptions
+        );
+        result = await result.json();
+
+        if (!result.token) {
+            setError(true);
+            return;
+        }
+        document.cookie="Authorization="+result.token
+        setError(false);
+        router.push("/");
     };
     return (
         <main className="grid grid-cols-3">

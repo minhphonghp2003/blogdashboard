@@ -29,8 +29,14 @@ async function Profile() {
     ).json();
     let avatar = await getPublicUrl({
         from: "image",
-        path: "avatar/" + userDetails.email + "/" + strip(userDetails.fullName),
+        path: "avatar/" + userDetails.username,
     });
+    let userPosts = await (
+        await fetch(
+            process.env.NEXT_PUBLIC_BACKEND +
+                `post/all?page=0&limit=9999&authorId=${userDetails.userInformation.id}&sortBy=updated_at`
+        )
+    ).json();
     return (
         <div className="grid gap-[1rem] grid-cols-3">
             <dialog id="my_modal_2" className="modal">
@@ -53,27 +59,30 @@ async function Profile() {
                     <ProfileCard
                         className="m-5"
                         avatar={avatar}
-                        name={userDetails.fullName}
+                        name={userDetails.userInformation.fullName}
                         roles={userDetails.roles}
                     />
-                    <Overview postDetail={userDetails.posts} classname=" m-5" />
+                    <Overview postDetail={userPosts.content} classname=" m-5" />
                     <div className="flex flex-col w-full">
                         <div className="divider divider-start">Details</div>
                     </div>
                     <Detail
-                        bio={userDetails.bio}
-                        contact={userDetails.phone}
+                        bio={userDetails.userInformation.bio}
+                        contact={userDetails.userInformation.phone}
                         email={userDetails.email}
                         status={userDetails.status.name}
                         username={userDetails.username}
                     />
                     <Action />
                 </Box>
-                <Statistic detail={userDetails.posts} />
+                <Statistic detail={userPosts.content} />
             </section>
             <section className="flex gap-[1rem] flex-col col-span-2">
                 <PasswordReset email={userDetails.email} />
-                <Social userId={userDetails.id} socials={userDetails.socials} />
+                <Social
+                    userId={userDetails.userInformation.id}
+                    socials={userDetails.userInformation.socials}
+                />
                 <Device />
             </section>
         </div>

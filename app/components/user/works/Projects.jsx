@@ -95,11 +95,11 @@ function Projects({ post }) {
     <Box>
       <Delete postDetail={post}/>
       <div className='flex flex-col gap-4'>
-        <Header img={post.imageLink} id={post.id} title={post.title} views={post.viewCount} ></Header>
-        <Statistic created={post.createdAt} likes={post.likeCount} shares={post.shareCount} updated={post.updatedAt} ></Statistic>
+        <Header img={post.imageLink} id={post.id} title={post.title} views={post.postStatistic.viewCount} ></Header>
+        <Statistic created={post.createdAt} likes={post.likeReader.length} shares={post.postStatistic.shareCount} updated={post.updatedAt} ></Statistic>
         <p>{post.foreword}</p>
         <div className="divider"></div>
-        <Footer cmts={post.comments.length} readingList={post.readingList} tags={post.tags} topic={post.topic.name} ></Footer>
+        <Footer cmts={post.comment? post.comments.length:0} readingList={post.readingList} tags={post.tags} topic={post.topic.name} ></Footer>
       </div>
     </Box>
   )

@@ -6,14 +6,6 @@ import { CookiesProvider, useCookies } from "react-cookie";
 import { upload } from '@/utils/storage';
 import { strip } from '@/utils/helpder';
 
-
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
-
-
-
 function Form({ inputs, values }) {
     return (
         <div className='grid grid-cols-2 grow-[1] gap-4'>
@@ -37,18 +29,14 @@ function Action({ formValues }) {
     const token = cookies.Authorization;
     let handleSubmit = async (e) => {
         let avatarFile = formValues.avatar
-        let avatar = formValues.oldAvatar
-        if (avatarFile.name) {
-            const avatarPath = "avatar/" + formValues.email + "/" + strip(formValues.fullName)
-            await upload({ from: "image", path: avatarPath, body:avatarFile, upsert:true })
-            avatar = avatarPath
+        if (avatarFile) {
+            const avatarPath = "avatar/" + formValues.username
+            await upload({ from: "image", path: avatarPath, body: avatarFile, upsert: true })
         }
         let body = {
             fullName: formValues.fullName,
             phone: formValues.phone,
             bio: formValues.bio,
-            username: formValues.username,
-            avatar: avatar,
             email: formValues.email
         }
 
@@ -60,11 +48,13 @@ function Action({ formValues }) {
             },
             body: JSON.stringify(body),
         }
-        let result = await fetch(process.env.NEXT_PUBLIC_BACKEND + "user/userDetail", fetchOption)
-        if (result.status >= 400) {
-            alert("Error, please try again")
-        } else {
+        try {
+            await fetch(process.env.NEXT_PUBLIC_BACKEND + "user/userDetail", fetchOption)
             alert("Update user successfully")
+
+        } catch (error) {
+            console.log(error);
+            alert("Error, please try again")
         }
 
     }
@@ -76,11 +66,12 @@ function Action({ formValues }) {
 }
 
 function Edit({ userDetail }) {
-    let [fullName, setFName] = useState(userDetail.fullName)
+    let [fullName, setFName] = useState(userDetail.userInformation.fullName)
     let [email, setEmail] = useState(userDetail.email)
-    let [phone, setPhone] = useState(userDetail.phone)
-    let [bio, setBio] = useState(userDetail.bio)
-    let [avatar, setAvatar] = useState(userDetail.avatar)
+    let [phone, setPhone] = useState(userDetail.userInformation.phone)
+    let [bio, setBio] = useState(userDetail.userInformation.bio)
+    let [avatar, setAvatar] = useState()
+    let username = userDetail.username
     let inputs = {
         FullName: setFName,
         Email: setEmail,
@@ -88,9 +79,8 @@ function Edit({ userDetail }) {
         Bio: setBio,
         Avatar: setAvatar
     }
-    let oldAvatar = userDetail.avatar
     let formValues = {
-        fullName, email, phone, bio, avatar, oldAvatar
+        fullName, email, phone, bio, avatar, username
     }
 
     return (

@@ -7,9 +7,9 @@ function Statistic({ detail }) {
     let view = 0
     if (detail) {
         detail.map(d => {
-            like += d.likeCount ? d.likeCount : 0
-            share += d.shareCount ? d.shareCount : 0
-            view += d.viewCount ? d.viewCount : 0
+            like += d.likeReader.length
+            share += d.postStatistic.shareCount
+            view += d.postStatistic.viewCount
         })
     }
     return (

@@ -153,26 +153,12 @@ function Post() {
                 topics={topics}
                 states={states}
             />
-            {/* <NovelEditor defaultValue="Start here" onChange={setContent} /> */}
-            {/* <LexicalEditor/> */}
-            {/* {upload ? (
-                <EditorBlock
-                    holder="editorjs"
-                    upload={upload}
-                    onChange={setContent}
-                />
-            ) : (
-                <EditorBlock holder="editorjs" onChange={setContent} />
-            )} */}
+          
             <EditorBlock
                 holder="editorjs-container"
                 upload={fileupload}
                 onChange={setContent}
             />
-            {/* {
-                content&&<Preview data={content}/>
-            } */}
-            {/* <BlockNote/> */}
         </div>
     );
 }

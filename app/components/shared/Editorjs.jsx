@@ -6,16 +6,15 @@ import { EDITOR_TOOLS } from './editortool'
 
 function Editorjs({ data, onChange, holder, upload }) {
     const ref = useRef();
+
     useEffect(() => {
         //initialize editor if we don't have a reference
         if (!ref.current) {
-           const editor = new EditorJS({
+            const editor = new EditorJS({
                 onReady: () => {
                     new DragDrop(editor);
                 },
-
                 placeholder: 'Let`s write an awesome story!',
-
                 inlineToolbar: true,
                 holder: holder,
                 tools: EDITOR_TOOLS,
@@ -26,21 +25,24 @@ function Editorjs({ data, onChange, holder, upload }) {
                 },
             })
             ref.current = editor;
-        } else {
-            ref.current = new EditorJS({
-                onReady: () => {
-                    new DragDrop(ref.current);
-                },
+        }
+        else {
+            if (upload) {
+                ref.current = new EditorJS({
+                    onReady: () => {
+                        new DragDrop(ref.current);
+                    },
 
-                inlineToolbar: true,
-                holder: holder,
-                tools: EDITOR_TOOLS,
-                data: upload ? upload : data,
-                async onChange(api, event) {
-                    const data = await api.saver.save();
-                    onChange(data);
-                },
-            })
+                    inlineToolbar: true,
+                    holder: holder,
+                    tools: EDITOR_TOOLS,
+                    data: upload,
+                    async onChange(api, event) {
+                        const data = await api.saver.save();
+                        onChange(data);
+                    },
+                })
+            }
         }
 
         //add a return function handle cleanup

@@ -25,7 +25,7 @@ function Login() {
         }
         document.cookie="Authorization="+result.token
         setError(false);
-        router.push("/");
+        router.push("/dashboard");
     };
     return (
         <main className="grid grid-cols-3">

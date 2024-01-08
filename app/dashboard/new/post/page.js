@@ -110,6 +110,23 @@ function Post() {
             JSON.stringify(body)
         );
         if (res.status == 200) {
+            let data = await res.json();
+            let createSearchBody = {
+                id: data.id,
+                content: JSON.stringify(content),
+                author: data.author,
+                topic: data.topic,
+                imageLink: path,
+                title,
+                foreword,
+                updatedAt: data.updatedAt,
+            };
+            makeACallTo(
+                "search/post",
+                "POST",
+                { Authorization: token },
+                JSON.stringify(createSearchBody)
+            );
             alert("Create Post successfully");
             router.push("/dashboard");
         } else {
@@ -153,7 +170,7 @@ function Post() {
                 topics={topics}
                 states={states}
             />
-          
+
             <EditorBlock
                 holder="editorjs-container"
                 upload={fileupload}

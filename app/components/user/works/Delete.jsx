@@ -11,7 +11,8 @@ function Delete({ postDetail }) {
     let [confirm, setConfirm] = useState("")
     let confirmText = postDetail.topic.name + "/" + postDetail.id
     let handleComfirm = async () => {
-        let res = await makeACallTo("post/", "DELETE", { Authorization: token }, postDetail.id)
+        await makeACallTo("post/", "DELETE", { Authorization: token }, postDetail.id)
+        await makeACallTo("search/post", "DELETE", { Authorization: token }, postDetail.id)
         alert("Delete post successfully") 
     }
     return (

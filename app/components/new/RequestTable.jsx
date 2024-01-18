@@ -12,9 +12,9 @@ let removeRequestById = (oldRequest, id) => {
 }
 
 function RequestTable({ className }) {
-    const [cookies] = useCookies(["Authorization"]);
+    const [cookies] = useCookies(["Auth"]);
     const [request, setRequest] = useState()
-    const token = cookies.Authorization;
+    const token = cookies.Auth;
     let handleAccept = async (id,type) => {
 
         let res = await makeACallTo(type+"/", "PUT", { "Authorization": token }, id)

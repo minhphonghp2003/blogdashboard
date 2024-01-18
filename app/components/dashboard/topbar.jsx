@@ -5,11 +5,13 @@ import { useState } from "react"
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 
-function Topbar({user}) {
+function Topbar({ user }) {
   const router = useRouter();
 
   const handleLogout = () => {
-    document.cookie = "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "Auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "logged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     router.replace("/authentication")
   }
   return (
@@ -23,7 +25,7 @@ function Topbar({user}) {
         <div className=" dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src={user&&user.avatar}/>
+              <img src={user && user.avatar} />
             </div>
           </label>
           <ul tabIndex={0} className="mt-3 bg-[#323249] z-[1] p-2 shadow-[0_0.25rem_1rem_rgba(0,0,0,.2)] menu menu-sm dropdown-content rounded-lg w-52">

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import LoginForm from "../components/authentication/login";
 import { useRouter } from "next/navigation";
 
+
 function Login() {
     let router = useRouter();
  
@@ -23,7 +24,7 @@ function Login() {
             setError(true);
             return;
         }
-        document.cookie="Authorization="+result.token
+        document.cookie="Auth="+result.token
         setError(false);
         router.push("/dashboard");
     };

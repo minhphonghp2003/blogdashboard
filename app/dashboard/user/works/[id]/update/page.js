@@ -16,8 +16,8 @@ const EditorBlock = dynamic(() => import("@/app/components/shared/Editorjs"), {
 
 function Update({ params }) {
     const router = useRouter();
-    const [cookies] = useCookies(["Authorization"]);
-    const token = cookies.Authorization;
+    const [cookies] = useCookies(["Auth"]);
+    const token = cookies.Auth;
     const [selectedTag, setSelectedTag] = useState([]);
     const [selectedRList, setSelectedRList] = useState(null);
     const [selectedTopic, setSelectedTopic] = useState(null);

@@ -15,7 +15,7 @@ import { strip } from "@/utils/helpder";
 
 async function Profile() {
     let cookieStore = cookies();
-    let token = cookieStore.get("Authorization");
+    let token = cookieStore.get("Auth");
     let fetchOptions = {
         headers: {
             Authorization: token.value,

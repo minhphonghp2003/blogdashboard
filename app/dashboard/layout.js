@@ -9,11 +9,12 @@ import { getPublicUrl } from "@/utils/storage";
 function DashboardLayout({ children }) {
     const router = useRouter();
 
-    const [cookies, setCookie, removeCookie] = useCookies(["Authorization"]);
-    const token = cookies.Authorization;
-    if (!token) {
-        router.push("/authentication");
-    }
+    const [cookies, setCookie, removeCookie] = useCookies(["Auth"]);
+    const token = cookies.Auth;
+    // if (!token) {
+    //     console.log("no token");
+    //     router.push("/authentication");
+    // }
 
     let [user, setUser] = useState();
 
@@ -40,7 +41,9 @@ function DashboardLayout({ children }) {
             setUser(data);
         } catch (error) {
             document.cookie =
-                "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                "Auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie =
+                "logged=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             router.push("/authentication");
         }
     };

@@ -10,8 +10,8 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 function Works() {
-    const [cookies] = useCookies(["Authorization"]);
-    const token = cookies.Authorization;
+    const [cookies] = useCookies(["Auth"]);
+    const token = cookies.Auth;
     let userId = token ? parseJwt(token).jti : null;
     let [posts, setPosts] = useState([]);
     let [isLoading, setLoading] = useState(true);

@@ -9,7 +9,7 @@ import { cookies } from "next/headers";
 async function Information() {
     let isAdmin = false;
     let cookieStore = cookies();
-    const token = cookieStore.get("Authorization");
+    const token = cookieStore.get("Auth");
     let res = await makeACallTo("user/checkAdmin", "GET", {
         Authorization: token.value,
     });

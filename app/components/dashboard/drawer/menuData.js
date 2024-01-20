@@ -10,14 +10,33 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
-
 export let User = [
-    { title: "Profile", to: "/dashboard/user/profile", icon: <PeopleOutlinedIcon /> },
-    { title: "Works", to: "/dashboard/user/works", icon: <BarChartOutlinedIcon /> },
+    {
+        title: "Profile",
+        to: "/dashboard/user/profile",
+        icon: <PersonOutlinedIcon />,
+    },
+    {
+        title: "Works",
+        to: "/dashboard/user/works",
+        icon: <BarChartOutlinedIcon />,
+    },
+    {
+        title: "All users",
+        to: "/dashboard/user/all",
+        icon: <PeopleOutlinedIcon />,
+    },
 ];
 
-export let New=[
-
-    { title: "Post", to: "/dashboard/new/post", icon: <CalendarTodayOutlinedIcon /> },
-    { title: "Post information", to: "/dashboard/new/topic", icon: <ReceiptOutlinedIcon /> },
-]
+export let New = [
+    {
+        title: "Post",
+        to: "/dashboard/new/post",
+        icon: <CalendarTodayOutlinedIcon />,
+    },
+    {
+        title: "Post information",
+        to: "/dashboard/new/topic",
+        icon: <ReceiptOutlinedIcon />,
+    },
+];

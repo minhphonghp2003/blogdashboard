@@ -8,8 +8,8 @@ import { upload } from '@/utils/storage'
 import { makeACallTo } from '@/utils/network'
 
 function ReadingList({ className }) {
-    const [cookies] = useCookies(['Authorization']);
-    const token = cookies.Authorization;
+    const [cookies] = useCookies(['Auth']);
+    const token = cookies.Auth;
     let [name, setName] = useState("")
     let [image, setImage] = useState("")
     let [description, setDesc] = useState("")

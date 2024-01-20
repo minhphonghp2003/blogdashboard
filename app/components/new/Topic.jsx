@@ -8,8 +8,8 @@ import { makeACallTo } from '@/utils/network'
 import { useCookies } from 'react-cookie'
 
 function Topic({ className }) {
-    const [cookies] = useCookies(['Authorization']);
-    const token = cookies.Authorization;
+    const [cookies] = useCookies(['Auth']);
+    const token = cookies.Auth;
     let [name, setName] = useState("")
     let [icon, setIcon] = useState("")
     let [description, setDesc] = useState("")

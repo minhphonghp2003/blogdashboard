@@ -17,7 +17,7 @@ async function Device() {
         d["time"] = d["createdAt"]
         let os = d["os"].toLowerCase()
         if (os.match("ios")) {
-            d["icon"] = <IoIosAppstore  color='blue'/>
+            d["icon"] = <IoIosAppstore color='blue' />
         } else if (os.match("windows")) {
 
             d["icon"] = <FaWindows color='#87CEEB' />
@@ -33,7 +33,7 @@ async function Device() {
     return (
         <Box>
             <div className='flex flex-col gap-5 '>
-                <h4 className='text-white text-lg'>Recent Devices</h4>
+                <h4 className='text-white text-lg'>Recent Login</h4>
                 <div className="overflow-x-auto h-[20rem]">
                     <table className="table ">
                         {/* head */}

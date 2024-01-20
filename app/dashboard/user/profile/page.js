@@ -12,6 +12,7 @@ import React from "react";
 import { cookies } from "next/headers";
 import { getPublicUrl } from "@/utils/storage";
 import { strip } from "@/utils/helpder";
+import Activities from "@/app/components/user/profile/Activities";
 
 async function Profile() {
     let cookieStore = cookies();
@@ -83,7 +84,10 @@ async function Profile() {
                     userId={userDetails.userInformation.id}
                     socials={userDetails.userInformation.socials}
                 />
+            </section>
+            <section className="col-span-3">
                 <Device />
+                <Activities />
             </section>
         </div>
     );

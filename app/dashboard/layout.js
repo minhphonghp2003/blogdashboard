@@ -30,6 +30,8 @@ function DashboardLayout({ children }) {
                 fetchOptions
             );
             if (data.status >= 400) {
+                // document.cookie =
+                    // "Auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/dashboard/user;";
                 router.push("/authentication");
             }
             data = await data.json();

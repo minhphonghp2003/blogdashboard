@@ -8,8 +8,8 @@ import { useCookies } from 'react-cookie'
 
 
 function Tag({ className }) {
-    const [cookies] = useCookies(['Authorization']);
-    const token = cookies.Authorization;
+    const [cookies] = useCookies(['Auth']);
+    const token = cookies.Auth;
     let [name,setName] = useState("")
     let handleNameChange = (e) => { setName(e.target.value)}
     let handleSubmit =async ()=>{

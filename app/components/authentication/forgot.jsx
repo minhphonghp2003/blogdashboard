@@ -15,7 +15,7 @@ function ForgotCard() {
             body: email
 
         }
-        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND + "auth/recvToken", fetchOptions)
+        let response = await fetch(process.env.NEXT_PUBLIC_BACKEND + "user/recvToken", fetchOptions)
         let respToken = (await response.json()).token
         fetchOptions = {
             method: "POST",

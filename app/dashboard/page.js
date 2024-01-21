@@ -1,49 +1,68 @@
-import React from 'react'
-
+import React from "react";
+import Box from "../components/shared/box";
+import Welcome from "../components/dashboard/welcome";
+import CustomLineChart from "../components/dashboard/CustomLineChart";
+import Activities from "../components/dashboard/activities";
+import Device from "../components/user/profile/Device";
+import PopularPost from "../components/dashboard/popularPost";
+import CustomAreaChart from "../components/dashboard/CustomAreaChart";
+const shuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
 function Dashboard() {
-  return (
-    <div className=''>
+    let viewData = shuffle([65, 59, 80, 81, 56, 55, 40]);
+    let shareData = shuffle([65, 59, 80, 81, 56, 55, 40]);
+    let likeData = shuffle([65, 59, 80, 81, 56, 55, 40]);
+    let pointData = shuffle([65, 59, 80, 81, 56, 55, 40]);
+    return (
+        <div className="grid grid-cols-6 gap-4">
+            <div className="col-span-4">
+                <Welcome name="phong" />
+            </div>
+            <Box className="col-span-2 ">
+                <CustomLineChart name="VIEW" color="blue" data={viewData} />
+            </Box>
 
-
-Հայերեն Shqip ‫العربية Български Català 中文简体 Hrvatski Česky Dansk Nederlands English Eesti Filipino Suomi Français ქართული Deutsch Ελληνικά ‫עברית हिन्दी Magyar Indonesia Italiano Latviski Lietuviškai македонски Melayu Norsk Polski Português Româna Pyccкий Српски Slovenčina Slovenščina Español Svenska ไทย Türkçe Українська Tiếng Việt
-Lorem Ipsum
-"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget sapien fermentum tortor consequat pulvinar. Vestibulum pellentesque laoreet ante dictum aliquet. Proin ac semper nisi. Quisque turpis dolor, efficitur luctus malesuada at, tempus quis lorem. Sed id laoreet purus. Sed sagittis nunc id leo lobortis posuere. Duis commodo auctor tellus, posuere convallis velit. Morbi fringilla diam in finibus rhoncus. Aliquam sit amet nunc non ligula tincidunt convallis. Aenean erat enim, consequat non dolor at, faucibus condimentum felis. Morbi ullamcorper leo nec turpis venenatis, ullamcorper imperdiet urna sodales. Suspendisse porttitor venenatis nibh. Ut a enim mauris. Nunc elementum volutpat magna et dignissim. Curabitur venenatis, arcu sed vulputate condimentum, erat dolor condimentum nibh, nec tempor lorem diam eget eros.
-
-Vestibulum facilisis lectus porttitor enim imperdiet aliquam. Quisque quis bibendum elit. Fusce sodales vel nisl eget interdum. Quisque justo nunc, malesuada ut quam quis, consequat sodales enim. Proin tempus dignissim neque, pellentesque volutpat augue volutpat semper. Nam viverra nulla ut ex accumsan feugiat. Phasellus dignissim erat eu lectus maximus vulputate. Fusce tempus sodales tortor, in convallis arcu suscipit sit amet. In ultrices neque vitae mi consectetur, eget lobortis ipsum ornare. Nulla ac libero aliquet, laoreet lacus in, sagittis lorem. Donec metus nisi, gravida sit amet tortor eu, pretium accumsan lectus. Vivamus tempor hendrerit erat at iaculis.
-
-Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nullam ultrices enim enim, sit amet finibus massa lacinia eu. Curabitur et auctor ipsum. Nunc augue lorem, rhoncus sed consequat et, pharetra id ligula. Mauris consectetur diam ac lacus viverra, interdum ullamcorper ligula posuere. Praesent ac sem fringilla, malesuada ex non, molestie nisl. Nam eu fringilla risus, eget viverra lectus.
-
-Donec placerat vulputate magna, vel convallis mi facilisis malesuada. Nulla vitae condimentum ante. Etiam dignissim lacus non dignissim convallis. In eu ante et odio dignissim hendrerit. Morbi at rhoncus purus. Etiam mattis mauris sit amet mi convallis, et consequat mauris pretium. Mauris tristique a felis nec mattis. Sed gravida molestie erat, sit amet dictum ante ultrices et. Morbi non felis ultrices, malesuada dolor at, aliquet massa. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut at urna ac neque sagittis accumsan. Donec gravida mi sit amet nulla placerat, quis sollicitudin massa commodo. Curabitur sed vestibulum augue. Aenean posuere lorem ac arcu tincidunt, a laoreet sem elementum. Morbi tempor mi sed felis consectetur cursus. Praesent ornare libero urna, nec varius est semper nec.
-
-Quisque egestas rutrum augue, non maximus nulla molestie nec. In nisi sem, molestie non nibh eget, hendrerit tempor mauris. Donec massa eros, aliquet eget vestibulum eget, interdum sit amet lorem. Donec rutrum odio vitae semper semper. Nunc finibus congue est. Vestibulum aliquet, magna sit amet laoreet blandit, neque mi dictum enim, id semper velit dui id ante. Nullam purus ante, gravida in elit vel, molestie ultrices ex. Integer rhoncus libero mattis lacus congue aliquet.
-
-Sed vitae feugiat lorem. Nunc eu semper ex, vel tincidunt ante. In sed turpis ex. Sed in diam ut augue commodo finibus. Pellentesque scelerisque erat vel elit cursus, non blandit est interdum. Pellentesque sodales justo at pharetra pretium. Donec efficitur lectus ut libero imperdiet, at cursus mauris aliquam. Nulla nec neque ante. Cras luctus tincidunt justo, ac tempor metus ultricies faucibus. Donec laoreet maximus eleifend. Etiam eu mi vel purus luctus rutrum. Etiam urna nunc, interdum at faucibus ac, ultrices quis lacus. Phasellus quis lorem libero.
-
-Praesent eu ligula quam. Nam ornare, diam eget elementum cursus, mauris nisi lacinia urna, eu tempus arcu diam sit amet lorem. Nam vitae lectus vel nibh ornare eleifend vel sit amet lorem. Proin pellentesque sit amet ligula vel tincidunt. Nulla in facilisis lorem, egestas tincidunt lectus. Ut malesuada rhoncus mauris, id sodales libero sollicitudin et. Vivamus urna sem, sollicitudin vel rhoncus ut, mattis a orci. Aliquam accumsan tempor feugiat. Cras et augue lobortis, vestibulum nibh sit amet, molestie nisi. In eu ligula at ipsum suscipit tincidunt eget eu purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis ac felis molestie sem aliquet porttitor.
-
-In facilisis sem mauris, vel venenatis magna cursus dignissim. Sed nisl mi, accumsan et nisl a, ornare sagittis lorem. Curabitur ullamcorper risus non laoreet pretium. Nullam aliquet lacus dolor, a fringilla tellus tincidunt eu. Nullam eget ultrices arcu. Integer ut massa in eros lacinia tempus. Etiam commodo sollicitudin quam, hendrerit tempus lorem dapibus efficitur. Donec vel ipsum sem. Donec convallis rhoncus purus quis vulputate. Quisque ac dolor tincidunt, feugiat augue eu, tristique turpis.
-
-Donec quam leo, pulvinar at justo sit amet, iaculis euismod urna. Donec mi velit, gravida vel pulvinar at, iaculis in nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Duis eget tortor sit amet felis tincidunt mollis vitae at diam. Cras bibendum tellus sit amet pulvinar consequat. Etiam ac egestas erat. Aenean metus lectus, rutrum ac convallis id, iaculis venenatis nulla. Fusce vitae purus id nunc feugiat pharetra a sit amet nunc. Aenean arcu nisi, dapibus vitae mi ut, tincidunt consectetur ligula. Aenean malesuada dictum felis a bibendum.
-
-Vivamus semper magna nulla, vitae euismod leo lacinia non. Etiam id luctus tellus, ut porta purus. Sed sodales eros posuere, aliquam felis quis, congue diam. Vivamus id varius enim. Sed commodo suscipit risus eu volutpat. Nullam tempor velit sit amet faucibus pulvinar. Aenean interdum consectetur odio non bibendum. Suspendisse at dui vulputate, vulputate magna et, rutrum nulla. Etiam vitae commodo libero. Sed blandit tempor magna, vitae pretium lacus elementum sit amet. Nulla efficitur purus eu mollis ultricies.
-
-Vivamus a aliquam lectus, sit amet elementum lectus. Fusce pellentesque, velit sit amet aliquam ultricies, velit diam malesuada nunc, quis gravida quam ligula ac tellus. Maecenas imperdiet nisi pretium blandit dapibus. Suspendisse potenti. Maecenas malesuada vestibulum metus, id varius arcu gravida sed. Cras non felis ex. Praesent id elit et elit venenatis volutpat. Maecenas eget elit ut nulla tincidunt cursus ac eget nibh. Maecenas interdum viverra mollis. Sed scelerisque eu purus non dictum. Ut commodo dolor nisl, eget laoreet dolor faucibus id. Aenean consectetur velit ut felis interdum tempor. Sed pellentesque, lectus in sagittis venenatis, sapien neque fermentum erat, eget imperdiet libero metus vitae justo.
-
-Maecenas sit amet luctus sem. Donec vitae velit nec dui finibus tincidunt ut quis tellus. Praesent vitae sapien quis urna pulvinar feugiat in vel enim. Integer eget condimentum est, at pretium justo. Nunc in fermentum neque, ac facilisis lectus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam sed elit odio. Nulla facilisi. Suspendisse ullamcorper enim non euismod vulputate.
-
-Nam aliquet id neque sit amet porta. Donec sapien risus, tempor id augue porta, commodo fermentum felis. Quisque porta sed mauris sed venenatis. Vivamus tortor urna, aliquet sit amet sagittis eget, hendrerit sit amet nulla. Fusce sagittis ipsum ut convallis aliquam. Sed ut laoreet est. Cras dapibus, magna hendrerit molestie varius, elit augue facilisis lectus, ut efficitur nulla mi quis augue. Integer accumsan nibh eget est facilisis viverra. Sed ut erat sed lorem vestibulum posuere.
-
-Mauris at vulputate nisl. Proin aliquam orci purus, sed interdum ligula tincidunt sit amet. In fringilla ultricies dictum. Proin aliquam orci nisl, at pharetra ante mattis vitae. Etiam ultrices nibh sem, in commodo magna ultrices ac. Etiam elementum imperdiet felis in pretium. Sed commodo elit quis urna vestibulum, facilisis volutpat justo pellentesque. Praesent at leo turpis. Nunc dolor eros, consequat ac neque vel, iaculis consequat lectus. Ut sed ante diam. Vivamus at ornare risus.
-
-Maecenas vel lacus non ligula hendrerit facilisis eget et est. Nam posuere, lectus at imperdiet scelerisque, ante erat aliquam nunc, at aliquet tortor enim a dolor. Nam iaculis consectetur dapibus. Nunc eu condimentum nisi. Vivamus eu pretium magna. Vestibulum pellentesque enim magna, a mattis nunc sagittis id. Sed viverra enim eu augue volutpat, ut pretium nulla congue. Nulla pellentesque nisl ex, malesuada bibendum leo venenatis nec. Phasellus et ante iaculis, tempus ex nec, vehicula est. Donec egestas consectetur augue vitae posuere. Nullam molestie congue lacus nec maximus. Aliquam at interdum tortor. Cras malesuada eleifend dui id auctor. Nunc facilisis dolor faucibus ullamcorper porta. Nunc posuere porta tristique. Nulla et porttitor odio.
-
-Generated 15 paragraphs, 1342 words, 9003 bytes of Lorem Ipsum
-help@lipsum.com
-Privacy Policy · Do Not Sell My Personal Information · Change Consent
-    </div>
-  )
+            <Box className="col-span-4 row-span-1">
+                <h4 className="text-white">Point</h4>
+                <CustomAreaChart data={pointData} />
+            </Box>
+            <div className="col-span-2 gap-4 flex flex-col">
+                <Box className="  ">
+                    <CustomLineChart
+                        name="SHARE"
+                        color="pink"
+                        data={shareData}
+                    />
+                </Box>
+                <Box className=" ">
+                    <CustomLineChart
+                        name="LIKE"
+                        color="yellow"
+                        data={likeData}
+                    />
+                </Box>
+            </div>
+            <Box className="col-span-3">
+                <h4 className="text-white text-lg mb-3">Most Liked Posts</h4>
+                <PopularPost />
+            </Box>
+            <Box className="col-span-3">
+                <h4 className="text-white text-lg mb-3">Most Viewed Posts</h4>
+                <PopularPost />
+            </Box>
+            <Box className="h-[30rem] overflow-x-auto overflow-scroll col-span-3">
+                <Activities />
+            </Box>
+            <div className="col-span-3">
+                <Device />
+            </div>
+        </div>
+    );
 }
 
-export default Dashboard
+export default Dashboard;

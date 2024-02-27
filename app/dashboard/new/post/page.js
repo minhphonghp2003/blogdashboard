@@ -64,7 +64,7 @@ function Post() {
 
     let handlePost = async () => {
         let path =
-            JSON.parse(convertString(selectedTopic))[0].value +
+            convertString(JSON.parse(selectedTopic)[0].value) +
             "/" +
             convertString(title) +
             "_" +

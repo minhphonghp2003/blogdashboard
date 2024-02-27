@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 
 function Delete({ postDetail }) {
     const [cookies] = useCookies();
-    const token = cookies["Authorization"];
+    const token = cookies["Auth"];
     let [confirm, setConfirm] = useState("")
     let confirmText = postDetail.topic.name + "/" + postDetail.id
     let handleComfirm = async () => {

@@ -1,2 +1,4 @@
 Dashboard for my blog <br>
-Not ready to be deployed yet
+https://blogdashboard.nguyenminhphong.website/ <br>
+username:phong1234 <br>
+password:phongadmin

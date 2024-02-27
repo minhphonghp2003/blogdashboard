@@ -25,7 +25,7 @@ function Form({ inputs, values }) {
 }
 
 function Action({ formValues }) {
-    const [cookies] = useCookies(['Authorization']);
+    const [cookies] = useCookies(['Auth']);
     const token = cookies.Authorization;
     let handleSubmit = async (e) => {
         let avatarFile = formValues.avatar

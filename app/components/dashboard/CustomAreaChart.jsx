@@ -17,7 +17,7 @@ function CustomAreaChart({ data }) {
     let series = [
         {
             name: "point",
-            data: data
+            data: data.stats
         }
     ]
     return (

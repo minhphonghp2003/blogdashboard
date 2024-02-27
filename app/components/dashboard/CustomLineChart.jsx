@@ -88,18 +88,18 @@ function CustomLineChart({ name, color, data }) {
 
                         y: { // defining min and max so hiding the dataset does not change scale range
                             // display: false,
-                            border:{
-                                dash:[4,4]   
+                            border: {
+                                dash: [4, 4]
                             },
                             grid: {
-                                offset:false,
-                                display:true ,
-                                color:"gray",
+                                offset: false,
+                                display: true,
+                                color: "gray",
 
                             },
-                            ticks:{
+                            ticks: {
                                 stepSize: 20,
-                                display:false
+                                display: false
                             }
                         },
                         x: { // defining min and max so hiding the dataset does not change scale range
@@ -108,19 +108,19 @@ function CustomLineChart({ name, color, data }) {
                             grid: {
                                 display: false
                             },
-                            ticks:{
-                                color:"white"
+                            ticks: {
+                                color: "white"
                             }
                         }
                     }
                 }}
                 datasetIdKey='id'
                 data={{
-                    labels: ['a', 'a', 'a', 'a', 'a', 'a', 'a'],
+                    labels: data.date,
                     datasets: [
                         {
                             label: name,
-                            data: data,
+                            data: data.stats,
                             borderWidth: 4,
                             borderColor: color,
                             tension: 0.1

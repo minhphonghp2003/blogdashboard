@@ -14,10 +14,23 @@ const shuffle = (array) => {
     return array;
 };
 function Dashboard() {
-    let viewData = shuffle([65, 59, 80, 81, 56, 55, 40]);
-    let shareData = shuffle([65, 59, 80, 81, 56, 55, 40]);
-    let likeData = shuffle([65, 59, 80, 81, 56, 55, 40]);
-    let pointData = shuffle([65, 59, 80, 81, 56, 55, 40]);
+    let date = [1, 2, 3, 4, 5, 6, 7];
+    let viewData = {
+        date,
+        stats: shuffle([65, 59, 80, 81, 56, 55, 40]),
+    };
+    let shareData = {
+        date,
+        stats: shuffle([65, 59, 80, 81, 56, 55, 40]),
+    };
+    let likeData = {
+        date,
+        stats: shuffle([65, 59, 80, 81, 56, 55, 40]),
+    };
+    let pointData = {
+        date,
+        stats: shuffle([65, 59, 80, 81, 56, 55, 40]),
+    };
     return (
         <div className="grid grid-cols-6 gap-4">
             <div className="col-span-4">

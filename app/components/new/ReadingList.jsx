@@ -6,6 +6,7 @@ import Button from '../shared/button'
 import { useCookies } from 'react-cookie'
 import { upload } from '@/utils/storage'
 import { makeACallTo } from '@/utils/network'
+import { convertString } from '@/utils/helpder'
 
 function ReadingList({ className }) {
     const [cookies] = useCookies(['Auth']);
@@ -21,7 +22,7 @@ function ReadingList({ className }) {
         setDesc(e.target.value)
     }
     let handleSubmit = async () => {
-        const path = "readingList/" + name 
+        const path = "readingList/" + convertString(name)
 
         image = await upload({ from: "image", path, body: image, upsert: true })
         let data = {

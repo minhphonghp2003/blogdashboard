@@ -6,6 +6,7 @@ import Button from '../shared/button'
 import { upload } from "@/utils/storage"
 import { makeACallTo } from '@/utils/network'
 import { useCookies } from 'react-cookie'
+import { convertString } from '@/utils/helpder'
 
 function Topic({ className }) {
     const [cookies] = useCookies(['Auth']);
@@ -21,7 +22,7 @@ function Topic({ className }) {
         setDesc(e.target.value)
     }
     let handleSubmit = async () => {
-        const path = "topic/" + name 
+        const path = "topic/" +  convertString(name)
       
         icon = await upload({ from: "image", path, body: icon, upsert: true })
         let data = {

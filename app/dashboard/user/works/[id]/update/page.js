@@ -3,7 +3,7 @@ import PostMetadataForm from "@/app/components/new/form";
 import Box from "@/app/components/shared/box";
 import Loading from "@/app/components/user/works/Loading";
 import { addValue, fetchPostData, makeACallTo } from "@/utils/network";
-import { download, upload } from "@/utils/storage";
+import { download, saveJSON, upload } from "@/utils/storage";
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
@@ -134,7 +134,7 @@ function Update({ params }) {
                     <div>
                         <PostMetadataForm
                             onSave={() => {
-                                saveJSON({
+                            saveJSON({
                                     data: content,
                                     fileName: "draft.txt",
                                 });

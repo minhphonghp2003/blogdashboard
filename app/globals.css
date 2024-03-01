@@ -53,3 +53,19 @@ h4 {
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
   border-radius: var(--bs-card-border-radius);
 }
+
+.ce-block__content,
+.ce-toolbar__content {
+
+  max-width: 90%;
+}
+#editorjs-container{
+  z-index: 3;
+  font-size: 1.5rem;
+}
+.codeflask__flatten {
+  font-size: 1rem;
+}
+.ce-block__content, .ce-toolbar__content{
+  z-index: 0;
+}
